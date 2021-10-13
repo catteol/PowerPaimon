@@ -583,6 +583,9 @@ LRESULT CALLBACK WindowProc(
 				CheckMenuRadioItem(hTaskTrayMenu, ID_240, ID_60, wmId, MF_BYCOMMAND);
 				SelectedFPS = 60;
 				break;
+			case ID_ABOUT:
+				ShellAbout(hWnd, "unlockfps gui", "v1.0.1", hIcon);
+				break;
 			case ID_QUIT:
 				DestroyWindow(hWnd);
 				break;
