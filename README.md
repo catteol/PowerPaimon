@@ -1,11 +1,12 @@
 # Genshin Impact FPS Unlocker GUI
- - [Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)ページからビルド済み64bit最新版をダウンロードできます
  -  [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)をシステムトレイ常駐型アプリーケーションにラップしたものです
+ - **[Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)ページからビルド済み64bit最新版をダウンロードできます**
  - Windowsのみ動作します
+ - [Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)がインストールしてある必要があります
  - タスクトレイアイコンの右クリックメニューから上限FPSを設定できます
  - 初回のみ手動で原神を起動してください。以降は本ソフト起動時に自動で起動します
- - 起動時に既に原神を起動していると上手く動作しないので注意して下さい
 ## Notes
+ - 起動時に既に原神を起動していると上手く動作しないので注意して下さい
  - クラッシュした場合等タスクトレイにアイコンが残ったままになる事象を確認しています
     - カーソルでなぞれば消えます（？）
     - 他ソフトウェアでも見られるのでWindows側の問題かもしれません
