@@ -1,7 +1,7 @@
 # Genshin Impact FPS Unlocker GUI
  -  [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)をシステムトレイ常駐型アプリーケーションにラップしたものです
  - **[Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)ページからビルド済み64bit最新版をダウンロードできます**
- - Windowsのみ動作します
+   - 任意の場所に解凍して使用して下さい。同じディレクトリに設定ファイル(.ini)を作成します
  - [Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)がインストールしてある必要があります
  - タスクトレイアイコンの右クリックメニューから上限FPSを設定できます
  - 初回のみ手動で原神を起動してください。以降は本ソフト起動時に自動で起動します
@@ -17,7 +17,6 @@
  - Forked from [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)
  - This tool helps you to unlock the 60 fps limit in the game
  - Working in System Tray and set FPS limit by right-click menu
- - Work only on **Windows**
  - This is an external program uses **WriteProcessMemory** to write the desired fps to  the game
  - Handle protection bypass is already included
  - Does not require a driver for R/W access
