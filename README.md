@@ -1,9 +1,10 @@
 # Genshin Impact FPS Unlocker GUI
+ - [Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)ページからビルド済み64bit最新版をダウンロードできます
  -  [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)をシステムトレイ常駐型アプリーケーションにラップしたものです
  - Windowsのみ動作します
  - タスクトレイアイコンの右クリックメニューから上限FPSを設定できます
  - 初回のみ手動で原神を起動してください。以降は本ソフト起動時に自動で起動します
-
+ - 起動時に既に原神を起動していると上手く動作しないので注意して下さい
 ## Notes
  - クラッシュした場合等タスクトレイにアイコンが残ったままになる事象を確認しています
     - カーソルでなぞれば消えます（？）
@@ -22,7 +23,7 @@
  - Supports OS and CN version
  - Should works for future updates
  - If the source needs to be updated, I'll try to do it as soon as possible
- - You can download the compiled binary over at '[Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases)' if you don't want to compile it yourself
+ - You can download the compiled binary over at '[Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)' if you don't want to compile it yourself
  ## Compiling
  - Use  Visual Studio 2019 Community Edition to compile
  - Not required but I know it works on this version
