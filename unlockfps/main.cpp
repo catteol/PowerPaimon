@@ -314,7 +314,7 @@ DWORD __stdcall _main(LPVOID p)
 	std::string ProcessPath = GamePath;
 	std::string ProcessDir{};
 
-	printf("FPS Unlocker v1.4.0\n");
+	printf("unlockfps GUI v1.0.0\n");
 	printf("Game: %s\n\n", ProcessPath.c_str());
 	ProcessDir = ProcessPath.substr(0, ProcessPath.find_last_of("\\"));
 
