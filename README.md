@@ -1,12 +1,28 @@
-# Genshin Impact FPS Unlocker
+# Genshin Impact FPS Unlocker GUI
+ -  [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)をシステムトレイ常駐型アプリーケーションにラップしたものです
+ - Windowsのみ動作します
+ - タスクトレイアイコンの右クリックメニューから上限FPSを設定できます
+ - 初回のみ手動で原神を起動してください。以降は本ソフト起動時に自動で起動します
+
+## Notes
+ - クラッシュした場合等タスクトレイにアイコンが残ったままになる事象を確認しています
+    - カーソルでなぞれば消えます（？）
+    - 他ソフトウェアでも見られるのでWindows側の問題かもしれません
+ - C++ほぼ触らないので大分改悪しているかもしれません
+
+
+# English and original readme
+ - Forked from [34736384/genshin-fps-unlock](https://github.com/34736384/genshin-fps-unlock/releases)
  - This tool helps you to unlock the 60 fps limit in the game
+ - Working in System Tray and set FPS limit by right-click menu
+ - Work only on **Windows**
  - This is an external program uses **WriteProcessMemory** to write the desired fps to  the game
  - Handle protection bypass is already included
  - Does not require a driver for R/W access
  - Supports OS and CN version
  - Should works for future updates
  - If the source needs to be updated, I'll try to do it as soon as possible
- - You can download the compiled binary over at '[Release](https://github.com/34736384/genshin-fps-unlock/releases)' if you don't want to compile it yourself
+ - You can download the compiled binary over at '[Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases)' if you don't want to compile it yourself
  ## Compiling
  - Use  Visual Studio 2019 Community Edition to compile
  - Not required but I know it works on this version
@@ -18,19 +34,11 @@
  - Run the exe as administrator, and leave the exe running
  >It requires adminstrator because the game needs to be started by the unlocker and the game requires such permission
  - To inject reshade, place the reshade dll in the same folder as the unlocker
- ### Default Keybinds
- - **END** to toggle on/off
- - **UP ARROW** to increase limit (+20)
- - **DOWN ARROW** to decrease limit (-20)
- - The default fps limit is set to 120
  ## Notes
  - Tested on a new account for two weeks and no bans so far (AR30), can't guaranteed it will be safe forever, But honestly though, I doubt they would ban you for this.
  - Modifying game memory with an unauthorized third party application is a violation of the ToS, so use it at your own risk
  - If you want to change keybinds or the default fps then you can edit the defines at the top of the source
- - [Here](http://cherrytree.at/misc/vk.htm) is a list of keycodes
  - The reason that I didn't made it to be place in the same folder of the game exe is because the game will attempt to verify the files before logging on, and it will treat the unlocker as a game file too which will fail the file integrity check. Producing an 31-4302 error.
- ## Todo
- - idk maybe add keybinds and fps settings to config
 
 
 # 原神解锁FPS限制
@@ -52,11 +60,6 @@
  - 用管理员运行解锁器
  - 解锁器不能关掉
 >使用管理员运行是因为游戏必须由解锁器启动，游戏本身就需要管理员权限了，所以负责启动的也是需要的
-### 默认热键
-- **END** 开/关
-- **上方向键** 增大FPS上限 （+20）
-- **下方向键** 减少FPS上限 （-20）
-- 源里默认的FPS数值是120
 
 ## 注意
 - 已经在新号上测试了两星期，目前并没有任何异常，冒险等级30
