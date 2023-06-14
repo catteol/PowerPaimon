@@ -313,16 +313,16 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 			// menuItemAbout
 			// 
 			this->menuItemAbout->Name = L"menuItemAbout";
-			this->menuItemAbout->Size = System::Drawing::Size(107, 22);
+			this->menuItemAbout->Size = System::Drawing::Size(180, 22);
 			this->menuItemAbout->Text = L"About";
 			this->menuItemAbout->Click += gcnew System::EventHandler(this, &MainForm::menuItemAbout_Click);
 			// 
 			// menuItemExit
 			// 
 			this->menuItemExit->Name = L"menuItemExit";
-			this->menuItemExit->Size = System::Drawing::Size(107, 22);
+			this->menuItemExit->Size = System::Drawing::Size(180, 22);
 			this->menuItemExit->Text = L"Exit";
-			this->menuItemExit->Click += gcnew System::EventHandler(this, &MainForm::menuItemExit_Click);
+			this->menuItemExit->Click += gcnew System::EventHandler(this, &MainForm::exit_Click);
 			// 
 			// editToolStripMenuItem
 			// 
@@ -397,7 +397,7 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 			});
 			this->contextMenuNotify->Name = L"contextMenuNotify";
 			this->contextMenuNotify->ShowItemToolTips = false;
-			this->contextMenuNotify->Size = System::Drawing::Size(128, 48);
+			this->contextMenuNotify->Size = System::Drawing::Size(181, 70);
 			// 
 			// toolStripMenuConfigure
 			// 
@@ -409,9 +409,9 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 			// toolStripMenuExit
 			// 
 			this->toolStripMenuExit->Name = L"toolStripMenuExit";
-			this->toolStripMenuExit->Size = System::Drawing::Size(127, 22);
+			this->toolStripMenuExit->Size = System::Drawing::Size(180, 22);
 			this->toolStripMenuExit->Text = L"Exit";
-			this->toolStripMenuExit->Click += gcnew System::EventHandler(this, &MainForm::toolStripMenuExit_Click);
+			this->toolStripMenuExit->Click += gcnew System::EventHandler(this, &MainForm::exit_Click);
 			// 
 			// groupBox1
 			// 
@@ -772,6 +772,7 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Hide;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"PowerPaimon";
+			this->Deactivate += gcnew System::EventHandler(this, &MainForm::MainForm_Deactivate);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->tbFPS))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->inputFPS))->EndInit();
 			this->menuStrip1->ResumeLayout(false);
@@ -805,7 +806,7 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 	private: Void OnProgressChanged(Object^ sender, ProgressChangedEventArgs^ e);
 	private: Void OnResize(Object^ sender, EventArgs^ e);
 	private: Void OnDoubleClick(Object^ sender, EventArgs^ e);
-	private: Void toolStripMenuExit_Click(Object^ sender, EventArgs^ e);
+	private: Void exit_Click(Object^ sender, EventArgs^ e);
 	private: Void OnFormClosing(Object^ sender, FormClosingEventArgs^ e);
 	private: Void menuItemAbout_Click(Object^ sender, EventArgs^ e);
 	private: Void UpdateSettings(Object^ sender, FormClosingEventArgs^ e);
@@ -813,7 +814,9 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 	private: Void btnDllAdd_Click(Object^ sender, EventArgs^ e);
 	private: Void OnFormat(Object^ sender, ListControlConvertEventArgs^ e);
 	private: Void ckbCustomRes_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
-	private: Void menuItemExit_Click(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void toolStripMenuConfigure_Click(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void MainForm_Deactivate(System::Object^ sender, System::EventArgs^ e);
+private: System::Void menuItemExit_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }

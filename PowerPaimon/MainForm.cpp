@@ -287,18 +287,6 @@ namespace unlockfpsclr
 		//notifyIcon->Visible = false;
 	}
 
-	Void MainForm::toolStripMenuExit_Click(Object^ sender, EventArgs^ e)
-	{
-		Application::Exit();
-	}
-
-	Void MainForm::OnFormClosing(Object^ sender, FormClosingEventArgs^ e)
-	{
-		// save on exit
-		settings->Save();
-		notifyIcon->Visible = false;
-	}
-
 	Void MainForm::menuItemAbout_Click(Object^ sender, EventArgs^ e)
 	{
 		auto form = gcnew AboutForm();
@@ -308,7 +296,6 @@ namespace unlockfpsclr
 	Void MainForm::UpdateSettings(System::Object^ sender, FormClosingEventArgs^ e)
 	{
 		// update settings and write to file
-		// will be called upon closing 'Settings' dialog
 
 		settings->CustomResX = Convert::ToInt32(customResX->Value);
 		settings->CustomResY = Convert::ToInt32(customResY->Value);
@@ -318,6 +305,23 @@ namespace unlockfpsclr
 
 		settings->Save();
 		lbDllList->Items->Clear();
+	}
+
+	System::Void MainForm::MainForm_Deactivate(System::Object^ sender, System::EventArgs^ e)
+	{
+		UpdateSettings(sender, nullptr);
+	}
+
+	Void MainForm::OnFormClosing(Object^ sender, FormClosingEventArgs^ e)
+	{
+		// save on exit
+		settings->Save();
+		notifyIcon->Visible = false;
+	}
+
+	Void MainForm::exit_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		this->Close();
 	}
 
 	Void MainForm::btnDllRemove_Click(Object^ sender, EventArgs^ e)
@@ -373,6 +377,7 @@ namespace unlockfpsclr
 		// formatting for dll list box
 		e->Value = Path::GetFileName(safe_cast<String^>(e->Value));
 	}
+
 	Void MainForm::ckbCustomRes_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
 		if (!this->ckbCustomRes->Checked)
@@ -388,10 +393,7 @@ namespace unlockfpsclr
 			this->customResY->Enabled = true;
 		}
 	}
-	Void MainForm::menuItemExit_Click(System::Object^ sender, System::EventArgs^ e)
-	{
-		Application::Exit();
-	}
+	
 	System::Void MainForm::toolStripMenuConfigure_Click(System::Object^ sender, System::EventArgs^ e)
 	{
 		this->WindowState = FormWindowState::Normal;
