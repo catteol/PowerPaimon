@@ -384,9 +384,9 @@ private: System::Windows::Forms::ToolTip^ ttAutoExit;
 			// 
 			this->notifyIcon->BalloonTipIcon = System::Windows::Forms::ToolTipIcon::Info;
 			this->notifyIcon->BalloonTipText = L"Minimized to tray";
-			this->notifyIcon->BalloonTipTitle = L"FPS Unlocker";
+			this->notifyIcon->BalloonTipTitle = L"PowerPaimon";
 			this->notifyIcon->ContextMenuStrip = this->contextMenuNotify;
-			this->notifyIcon->Text = L"Hello";
+			this->notifyIcon->Text = L"PowerPaimon";
 			this->notifyIcon->Visible = true;
 			// 
 			// contextMenuNotify

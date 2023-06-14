@@ -2,102 +2,91 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/rexent-gx/PowerPaimon?color=green)
 ![GitHub Release Date](https://img.shields.io/github/release-date/rexent-gx/PowerPaimon)
 <div style="text-align: center;">
-  <img src="https://user-images.githubusercontent.com/27722971/137457248-20981d46-2433-48b2-98eb-734d97307c6e.png" />
+  <img src="https://github.com/rexent-gx/PowerPaimon/assets/27722971/db39fbd3-d476-476b-8ced-290a0bbdbca2" />
 </div>
 
 ## ダウンロード
-**[こちら](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)から最新版(.exe/64bit)をダウンロードできます**
+**[こちら](https://github.com/rexent-gx/PowerPaimon/releases/latest)から最新版(.exe/64bit)をダウンロードできます**  
+
+2023年5月～6月あたりでFPS上限が60に戻ってしまう等の問題が発生したため、フォーク元の更新を取り込む大規模（？）アップデートを行いました。  
+GUIの実装もされていたためUIの再編成と日本語化等しかやることがありませんでしたが、大目に見ていただけると助かります。
 
 ## 概要
- - タスクトレイ常駐型アプリケーションです
- - デフォルト60FPS制限を解除し、最高240FPSまで対応します
- - ボーダーレスでの表示に対応します
+ - デフォルトの60FPS上限を解除し、360FPSまでの設定ができるようになります。
+ - ボーダーレス表示や省電力モードなどのオプションが使用できます。
 
 ## 使用方法
- - 動作には[Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)がインストールされている必要があります
- - [Release](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest)ページから最新版の.exeファイルをダウンロードして下さい
- - 任意の場所で実行して下さい
-   - 動作に管理者権限が必要となります
-   - .exeファイルと同一ディレクトリに設定ファイル(.ini)を自動で作成します
- - **操作や確認が必要な場合は通知が送られるので、上手く動かない場合は通知を確認してみて下さい。全画面アプリケーションが実行中の場合等、Windowsの設定によっては通知がサイレントになる場合があります。**
- - 初回起動時のみ手動で原神を起動して下さい。次回以降はPowerPaimon起動時に連動して原神が起動します
- - 右クリックメニューから各種設定が行なえます。
-   - デフォルト設定は144FPS、ボーダーレス無効です
- - ボーダーレスモードが有効の場合、**Alt+Enter**でフルスクリーンとボーダーレスが切り替わります
- - 原神を終了すると自動でPowerPaimonも終了します。操作は不要です
+### 起動
+ - 動作には[Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)がインストールされている必要があります。
+ - [Release](https://github.com/rexent-gx/PowerPaimon/releases/latest)ページから最新版の.exeファイルをダウンロードして下さい。
+ - 任意の場所で実行して下さい。動作には管理者権限が必要です。
+   - SmartScreenに弾かれた場合は、ダイアログの『詳細情報』から実行してください。
+   - .exeファイルと同一ディレクトリに設定ファイル(fps_config.json)を自動で作成します。
+   - 原神インストールディレクトリ内部に配置すると不具合が発生するとの情報もあるので、インストールディレクトリ外に配置することをおすすめします。
+ - 初回起動時は初期設定画面が表示されます。レジストリから自動で原神のインストールディレクトリを判別しますが、取得できなかった場合は手動で設定してください。
+
+### 設定
+ - 左側のFPSフェーダーで最大FPSを設定できます。テキストボックスへ値を入力することも可能です。
+ - 右側が各種設定画面です。
+   - 一般タブはPowerPaimon本体に関する設定です。
+   - 起動オプションタブは原神本体に関する設定です。
+   - DLLタブはDLLインジェクションに使用します。
+ - `プログラムを自動で終了する`
+   - 原神の終了時に自動でPowerPaimonを終了します。
+ - `省電力機能の有効化`
+   - 有効の場合、原神が非フォーカス時（最小化している・別のウィンドウが手前にある等）にFPSを10FPSに制限し、プロセス優先度を`低`に設定します。
+ - `ポップアップウィンドウモード`
+   - 起動時の引数に`-popupwindow`を追加し、ボーダーレスでの表示ができるようにします。`ウィンドウモード`を`Borderless`にすることでボーダーレスモードになります。
+ - 分かりにくい項目はマウスオーバーで詳細説明のツールチップが表示されるので、そちらを参照してください。
 
 ## 注意
- - 起動時に既に原神を起動していると正常に動作しません
- - **ボーダーレスの無効/有効切り替えは次回起動時から反映されます。**
+ - 起動時に既に原神を起動していると正常に動作しません。
  - ボーダーレスを有効にしたにも関わらずフルスクリーン挙動（別ウィンドウを開くと原神が非表示になってしまう等）となる場合、**Alt+Enter**を押してみて下さい
- - クラッシュした場合等タスクトレイにアイコンが残ったままになる事象を確認しています
-    - カーソルでなぞれば消えます（？）
-    - 他ソフトウェアでも同様の現象が見られるのでWindows側の問題かもしれません
- - C++ほぼ触らないのでバグ等あるかもしれません
+ - C++ほぼ触らないのでバグ大量にあると思います許して
  - メモリアクセス及び変更を行うことは規約に違反するので、ご利用は全て自己責任でお願いします
- - コンパイル方法及びその他注意事項は、[フォーク元](https://github.com/34736384/genshin-fps-unlock)から加筆転載した下記英語版Readmeを参照して下さい
+ - コンパイル方法及びその他注意事項は、[フォーク元](https://github.com/34736384/genshin-fps-unlock)を参照して下さい
 
 
 # English version
 
 ## Download
-**You can download the latest ".exe(64bit)" file from [HERE](https://github.com/rexent-gx/genshin-fps-unlock-gui/releases/latest).**
+**You can download the latest ".exe(64bit)" file from [HERE](https://github.com/rexent-gx/PowerPaimon/releases/latest).**
 
-## About
- - Working in System Tray
- - Unlock 60 FPS limit up to 240 FPS in the game
- - Enable Borderless mode
-
-## Note
- - This is an external program uses **WriteProcessMemory** to write the desired fps to  the game
+## Genshin Impact FPS Unlocker
+ - This tool helps you to unlock the 60 fps limit in the game
+ - This is an external program which uses **WriteProcessMemory** to write the desired fps to the game
  - Handle protection bypass is already included
  - Does not require a driver for R/W access
- - Should works for future updates
-
+ - Supports OS and CN version
+ - Should work for future updates
+ - If the source needs to be updated, I'll try to do it as soon as possible
+ - You can download the compiled binary over at '[Release](https://github.com/34736384/genshin-fps-unlock/releases)' if you don't want to compile it yourself
+ ## Compiling
+ - Use Visual Studio 2019 Community Edition to compile
+ - Not required but I know it works on this version
  ## Usage
- - Make sure you have the [Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe) installed
- - If it is your first time running, run unlocker as admin, then the unlocker will ask you to open the game. This only need to be done once, it's used for acquiring the game path. Then it'll be saved to a config file. After the config is made you can start the game via the unlocker in future sessions.
+ - Make sure you have the [Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe) and [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) installed
+ - If it is your first time running, unlocker will attempt to find your game through the registry. If it fails, then it will ask you to either browse or run the game.
  - Place the compiled exe anywhere you want
- - Make sure your game is closed, the unlocker will automatically start the game for you
+ - Make sure your game is closed—the unlocker will automatically start the game for you
  - Run the exe as administrator, and leave the exe running
  >It requires adminstrator because the game needs to be started by the unlocker and the game requires such permission
- - To inject reshade, place the reshade dll in the same folder as the unlocker
+ - To inject other third-party plugins (e.g. reshade), go to `Options->Settings->DLLs` and click add
 
-## Compiling
- - Use  Visual Studio 2019 Community Edition to compile
- - Not required but I know it works on this version
-
+## Version 2.0.0 Changes
+ - Removed key binds
+ - Added a GUI (should remove the need for keybinds)
+ - Added interactable lauch option configurations (Located under `Options->Settings->Lauch Options`)
+ - Added some QoL features, such as start minimized, minimize to tray, game process priority, and power saving
+ - **Minimize to tray**: Whenever you click minimize or have the `Start Minimized` option checked, the unlocker will automatically minimize to tray
+ - **Game Process Priority**: Changes the process priority on start, and it will be saved in config too!
+ - **Power Saving**: Automatically sets the fps limit to 10 and low process priority upon losing focus to the game (e.g. tabbing out of game)
+ - Added a slider and an input box for changing fps cap
+ - Added an icon
+ - Added game path detection through registry, will fallback to old method if it fails with registry
+ - You can choose different installation of the game in `Options->Setup`
  ## Notes
- - Tested on a new account for two weeks and no bans so far (AR30), can't guaranteed it will be safe forever, But honestly though, I doubt they would ban you for this.
- - Modifying game memory with an unauthorized third party application is a violation of the ToS, so use it at your own risk
- - If you want to change keybinds or the default fps then you can edit the defines at the top of the source
- - The reason that I didn't made it to be place in the same folder of the game exe is because the game will attempt to verify the files before logging on, and it will treat the unlocker as a game file too which will fail the file integrity check. Producing an 31-4302 error.
-
-
-# 原神解锁FPS限制
-
- - 工作原理类似于外部辅助，通过**WriteProcessMemory**把FPS数值写进游戏
- - 不需要通过驱动进行读写操作
- - 支持国服和外服
- - 理论上支持后续版本，不需要更新源码
- - 如果需要更新我会尽快更新
-
-## 编译
-
- - 用VS2019编译，其他版本的也应该可以，没测试过
-## 食用指南
- - 运行前确保系统已安装[Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)
- - 第一次运行的话先以管理员运行，然后手动打开游戏，这样解锁器能够获取到游戏路经并保存在配置文件里，这只需要执行一次，以后就可以直接用解锁器启动游戏了
- - 解锁器放哪都行
- - 运行之前确保游戏是关闭的
- - 用管理员运行解锁器
- - 解锁器不能关掉
->使用管理员运行是因为游戏必须由解锁器启动，游戏本身就需要管理员权限了，所以负责启动的也是需要的
-
-## 注意
-- 已经在新号上测试了两星期，目前并没有任何异常，冒险等级30
-- 使用未认证的第三方软件修改游戏数据是违反了协议条款的，后果自负
-- 想要更改热键的话，修改下源里开头的定义 （[热键码](http://cherrytree.at/misc/vk.htm)）
-- 至于为啥我没写成能在和游戏同一个目录下运行是因为游戏登录的时候会进行文件完整性检测，如果游戏目录内有其他文件也会当做是游戏的文件进行检测。如果把解锁器和游戏放一起的话游戏会把解锁器当成游戏文件检测，从而导致报错（31-4302）
-- 要转载的话随便，毕竟开源，可以的话就注明下出处
-- 这么个破工具请不要拿去倒卖
+ - My test account is currently AR55, can't guarantee it will be safe forever. But, honestly though, I doubt they would ban you for this.
+ - Modifying game memory with an unauthorized third-party application is a violation of the ToS, so use it at your own risk (same thing applies for injecting reshade)
+ ## Todo
+ - IDK, maybe add localization or game predownload
