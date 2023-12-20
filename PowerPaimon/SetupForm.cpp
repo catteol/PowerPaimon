@@ -7,7 +7,7 @@
 using namespace System::Threading;
 using namespace System::Windows::Forms;
 
-namespace unlockfpsclr
+namespace PowerPaimon
 {
 
     Void SetupForm::OnFormClosing(Object^ sender, FormClosingEventArgs^ e)
@@ -40,7 +40,8 @@ namespace unlockfpsclr
                 return;
             }
 
-            backgroundWorker->CancelAsync();
+            if (backgroundWorker)
+                backgroundWorker->CancelAsync();
             settings->GamePath = selectedFile;
             settings->Save();
             this->Close();
@@ -87,14 +88,12 @@ namespace unlockfpsclr
         this->Text = Util::GetString(IDS_SETUP_TITLE);
         btnConfirm->Text = Util::GetString(IDS_CONFIRM);
         btnBrowse->Text = Util::GetString(IDS_BROWSE);
-        labelHint->Text = Util::GetString(IDS_SETUP_SELECT_HINT);
 
         auto result = Managed::TryResolveGamePath();
         if (result->Count)
         {
             btnConfirm->Visible = true;
-            btnBrowse->Visible = false;
-            labelHint->Visible = false;
+            //btnBrowse->Visible = false;
             labelResult->Text = String::Format(Util::GetString(IDS_SETUP_LBRESULT_FOUND), result->Count);
             labelResult->ForeColor = Color::Green;
             labelSelectInstance->Text = Util::GetString(IDS_SETUP_LBSELECT_FOUND);
@@ -107,11 +106,10 @@ namespace unlockfpsclr
         else
         {
             btnConfirm->Visible = false;
-            btnBrowse->Visible = true;
-            labelHint->Visible = true;
+            //btnBrowse->Visible = true;
             labelResult->Text = Util::GetString(IDS_SETUP_LBRESULT_NOTFOUND);
             labelResult->ForeColor = Color::Red;
-            labelSelectInstance->Text = Util::GetString(IDS_SETUP_LBRESULT_NOTFOUND);
+            labelSelectInstance->Text = Util::GetString(IDS_SETUP_LBSELECT_NOTFOUND);
             comboBoxSelectInst->Visible = false;
 
             backgroundWorker = gcnew BackgroundWorker();

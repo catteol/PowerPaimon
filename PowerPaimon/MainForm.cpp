@@ -32,7 +32,7 @@ void Run()
 	Application::SetCompatibleTextRenderingDefault(false);
 	Application::EnableVisualStyles();
 
-	unlockfpsclr::MainForm mainForm;
+	PowerPaimon::MainForm mainForm;
 	Application::Run(% mainForm);
 }
 
@@ -105,7 +105,7 @@ Exit:
 	return 0;
 }
 
-namespace unlockfpsclr
+namespace PowerPaimon
 {
 	Void MainForm::btnStartGame_Click(Object^ sender, EventArgs^ e)
 	{
@@ -223,8 +223,6 @@ namespace unlockfpsclr
 			if (!Unmanaged::SetupData())
 				continue;
 
-			Managed::InjectDLLs(settings->DllList);
-
 			while (!worker->CancellationPending)
 			{
 				Unmanaged::ApplyFPS(settings->FPSTarget, settings->UsePowerSave);
@@ -275,6 +273,7 @@ namespace unlockfpsclr
 
 			// hide app icon in taskbar
 			this->ShowInTaskbar = false;
+			this->Hide();
 		}
 	}
 
@@ -283,6 +282,7 @@ namespace unlockfpsclr
 		// restores window and taskbar icon
 		this->WindowState = FormWindowState::Normal;
 		this->ShowInTaskbar = true;
+		this->Show();
 		this->Activate();
 		//notifyIcon->Visible = false;
 	}

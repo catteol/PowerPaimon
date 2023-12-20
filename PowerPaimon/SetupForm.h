@@ -2,7 +2,7 @@
 #include "Settings.h"
 #include "Managed.h"
 
-namespace unlockfpsclr {
+namespace PowerPaimon {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -43,7 +43,6 @@ namespace unlockfpsclr {
 	private: System::Windows::Forms::Label^ labelSelectInstance;
 	private: System::Windows::Forms::ComboBox^ comboBoxSelectInst;
 	private: System::Windows::Forms::Button^ btnBrowse;
-	private: System::Windows::Forms::Label^ labelHint;
 	private: System::Windows::Forms::ToolTip^ ttPath;
 	private: System::Windows::Forms::Button^ btnConfirm;
 	private: System::ComponentModel::IContainer^ components;
@@ -67,7 +66,6 @@ namespace unlockfpsclr {
 			this->labelSelectInstance = (gcnew System::Windows::Forms::Label());
 			this->comboBoxSelectInst = (gcnew System::Windows::Forms::ComboBox());
 			this->btnBrowse = (gcnew System::Windows::Forms::Button());
-			this->labelHint = (gcnew System::Windows::Forms::Label());
 			this->ttPath = (gcnew System::Windows::Forms::ToolTip(this->components));
 			this->btnConfirm = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
@@ -103,25 +101,13 @@ namespace unlockfpsclr {
 			// 
 			// btnBrowse
 			// 
-			this->btnBrowse->Location = System::Drawing::Point(16, 51);
+			this->btnBrowse->Location = System::Drawing::Point(16, 96);
 			this->btnBrowse->Name = L"btnBrowse";
 			this->btnBrowse->Size = System::Drawing::Size(75, 23);
 			this->btnBrowse->TabIndex = 3;
 			this->btnBrowse->Text = L"Browse";
 			this->btnBrowse->UseVisualStyleBackColor = true;
-			this->btnBrowse->Visible = false;
 			this->btnBrowse->Click += gcnew System::EventHandler(this, &SetupForm::btnBrowse_Click);
-			// 
-			// labelHint
-			// 
-			this->labelHint->AutoSize = true;
-			this->labelHint->BackColor = System::Drawing::Color::Transparent;
-			this->labelHint->Location = System::Drawing::Point(97, 56);
-			this->labelHint->Name = L"labelHint";
-			this->labelHint->Size = System::Drawing::Size(118, 13);
-			this->labelHint->TabIndex = 4;
-			this->labelHint->Text = L"or open your game now";
-			this->labelHint->Visible = false;
 			// 
 			// ttPath
 			// 
@@ -145,7 +131,6 @@ namespace unlockfpsclr {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(458, 131);
 			this->Controls->Add(this->btnConfirm);
-			this->Controls->Add(this->labelHint);
 			this->Controls->Add(this->btnBrowse);
 			this->Controls->Add(this->comboBoxSelectInst);
 			this->Controls->Add(this->labelSelectInstance);

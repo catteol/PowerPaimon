@@ -4,7 +4,7 @@
 #include <algorithm>
 
 
-namespace unlockfpsclr {
+namespace PowerPaimon {
 
 	using namespace System;
 	using namespace System::ComponentModel;
