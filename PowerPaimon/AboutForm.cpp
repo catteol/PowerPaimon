@@ -7,7 +7,7 @@
 
 using namespace System::Diagnostics;
 
-namespace unlockfpsclr
+namespace PowerPaimon
 {
 	Void AboutForm::OnLoad(Object^ sender, EventArgs^ e)
 	{

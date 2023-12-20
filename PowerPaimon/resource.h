@@ -24,7 +24,6 @@
 #define IDS_SETUP_LBSELECT_FOUND        1004
 #define IDS_SETUP_LBRESULT_NOTFOUND     1005
 #define IDS_SETUP_LBSELECT_NOTFOUND     1006
-#define IDS_SETUP_SELECT_HINT           1007
 #define IDS_MAIN_TITLE                  2000
 #define IDS_MAIN_MENU_FILE              2001
 #define IDS_MAIN_MENU_SETUP             2002
