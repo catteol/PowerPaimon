@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PowerPaimon", "PowerPaimon\PowerPaimon.vcxproj", "{A44A2C76-9D37-4D59-9020-AE1A0006C3A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerPaimon", "PowerPaimon\PowerPaimon.csproj", "{AB706C74-000D-4A43-909C-D0EE906003B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Release|x64 = Release|x64
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A44A2C76-9D37-4D59-9020-AE1A0006C3A1}.Debug|x64.ActiveCfg = Debug|x64
-		{A44A2C76-9D37-4D59-9020-AE1A0006C3A1}.Debug|x64.Build.0 = Debug|x64
-		{A44A2C76-9D37-4D59-9020-AE1A0006C3A1}.Release|x64.ActiveCfg = Release|x64
-		{A44A2C76-9D37-4D59-9020-AE1A0006C3A1}.Release|x64.Build.0 = Release|x64
+		{AB706C74-000D-4A43-909C-D0EE906003B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB706C74-000D-4A43-909C-D0EE906003B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB706C74-000D-4A43-909C-D0EE906003B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB706C74-000D-4A43-909C-D0EE906003B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BAF6D5E2-5167-4E91-880B-2C4F27568C85}
+		SolutionGuid = {BA9973A2-2E7A-4D69-A824-D9A1B1CCF56E}
 	EndGlobalSection
 EndGlobal
