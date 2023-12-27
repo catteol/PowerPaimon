@@ -40,17 +40,17 @@
             // 
             // LabelResult
             // 
-            LabelResult.AutoSize = true;
-            LabelResult.Location = new Point(12, 48);
+            LabelResult.Location = new Point(238, 68);
             LabelResult.Name = "LabelResult";
-            LabelResult.Size = new Size(67, 15);
+            LabelResult.Size = new Size(209, 15);
             LabelResult.TabIndex = 0;
             LabelResult.Text = "LabelResult";
+            LabelResult.TextAlign = ContentAlignment.MiddleRight;
             // 
             // LabelSelect
             // 
             LabelSelect.AutoSize = true;
-            LabelSelect.Location = new Point(12, 63);
+            LabelSelect.Location = new Point(12, 68);
             LabelSelect.Name = "LabelSelect";
             LabelSelect.Size = new Size(38, 15);
             LabelSelect.TabIndex = 1;
@@ -59,17 +59,16 @@
             // ComboResult
             // 
             ComboResult.FormattingEnabled = true;
-            ComboResult.Location = new Point(12, 81);
+            ComboResult.Location = new Point(12, 86);
             ComboResult.Name = "ComboResult";
             ComboResult.Size = new Size(435, 23);
             ComboResult.TabIndex = 2;
             // 
             // LabelHint
             // 
-            LabelHint.AutoSize = true;
-            LabelHint.Location = new Point(12, 117);
+            LabelHint.Location = new Point(12, 115);
             LabelHint.Name = "LabelHint";
-            LabelHint.Size = new Size(359, 45);
+            LabelHint.Size = new Size(435, 45);
             LabelHint.TabIndex = 3;
             LabelHint.Text = "If your game is not listed above, you can either:\r\n1. Open the game now and the PowerPaimon will try to find it's location\r\n2. Use the browse button below";
             // 

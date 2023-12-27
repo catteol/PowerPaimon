@@ -1,9 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PowerPaimon.Model;
 
 namespace PowerPaimon.Service
@@ -26,7 +21,7 @@ namespace PowerPaimon.Service
                 return;
 
             var json = File.ReadAllText(ConfigName);
-            Config = JsonConvert.DeserializeObject<Config>(json);
+            Config = JsonConvert.DeserializeObject<Config>(json) ?? throw new Exception("Failed to load config.");
         }
 
         private void Sanitize()

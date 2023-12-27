@@ -8,7 +8,7 @@ namespace PowerPaimon
     internal static class Program
     {
         private static IntPtr MutexHandle = IntPtr.Zero;
-        public static IServiceProvider ServiceProvider { get; private set; }
+        public static IServiceProvider? ServiceProvider { get; private set; }
 
         [STAThread]
         static void Main()
@@ -22,7 +22,6 @@ namespace PowerPaimon
             
             var services = new ServiceCollection();
             services.AddTransient<MainForm>();
-            services.AddTransient<SettingsForm>();
             services.AddTransient<SetupForm>();
             services.AddSingleton<ConfigService>();
             services.AddSingleton<ProcessService>();

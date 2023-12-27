@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PowerPaimon.Model
+﻿namespace PowerPaimon.Model
 {
     public class Config
     {
@@ -26,6 +20,7 @@ namespace PowerPaimon.Model
         public int CustomResY { get; set; } = 1080;
         public int MonitorNum { get; set; } = 1;
         public int Priority { get; set; } = 3;
+        public int Language { get; set; } = 2;
 
         public List<string> DllList { get; set; } = new();
     }
