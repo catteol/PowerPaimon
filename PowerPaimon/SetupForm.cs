@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Data;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Microsoft.Win32;
 using PowerPaimon.Model;
+using PowerPaimon.Properties;
 using PowerPaimon.Service;
 using PowerPaimon.Utility;
 
@@ -27,14 +20,16 @@ namespace PowerPaimon
             InitializeComponent();
             _configService = configService;
             _config = _configService.Config;
+            _cts = new();
         }
 
         private void SetupForm_Load(object sender, EventArgs e)
         {
-            _cts = new();
+            UpdateLanguage();
+
             Task.Run(PollProcess, _cts.Token);
 
-            LabelCurrentPath.Text = $@"Current Path: {_config.GamePath}";
+            LabelCurrentPath.Text = $"{Resources.CurrentPath}:\n" + $@"{_config.GamePath}";
             LabelResult.Text = @"Searching...";
             LabelResult.ForeColor = Color.Orange;
             Task.Run(SearchGamePath, _cts.Token);
@@ -114,10 +109,10 @@ namespace PowerPaimon
                     .Where(key => key != null)
                     .ToList();
 
-                subKeys.ForEach(openedSubKeys.Add);
+                subKeys.ForEach(s => { if (s is not null) openedSubKeys.Add(s); });
 
                 var launcherIniPaths = subKeys
-                    .Select(key => (string)key.GetValue("InstallPath"))
+                    .Select(key => (string?)key?.GetValue("InstallPath"))
                     .Where(path => !string.IsNullOrEmpty(path) && Directory.Exists(path))
                     .Select(launcherPath => $@"{launcherPath}\config.ini")
                     .ToList();
@@ -148,7 +143,7 @@ namespace PowerPaimon
                 Invoke(() =>
                 {
                     LabelResult.ForeColor = gamePaths.Count > 0 ? Color.Green : Color.Red;
-                    LabelResult.Text = $@"Found {gamePaths.Count} installation of the game";
+                    LabelResult.Text = String.Format(Resources.GameFoundLabel, gamePaths.Count);
                     ComboResult.Items.AddRange(gamePaths.ToArray());
                     if (gamePaths.Count > 0)
                         ComboResult.SelectedIndex = 0;
@@ -167,7 +162,7 @@ namespace PowerPaimon
 
             var selectedFile = BrowseDialog.FileName;
             var fileName = Path.GetFileNameWithoutExtension(selectedFile);
-            var directory = Path.GetDirectoryName(selectedFile);
+            var directory = Path.GetDirectoryName(selectedFile) ?? "";
 
             if (fileName != "GenshinImpact" && fileName != "YuanShen")
             {
@@ -190,12 +185,23 @@ namespace PowerPaimon
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            var selectedPath = (string)ComboResult.SelectedItem;
+            var selectedPath = (string?)ComboResult.SelectedItem;
             if (string.IsNullOrEmpty(selectedPath))
                 return;
 
             _config.GamePath = selectedPath;
             Close();
+        }
+
+        private void UpdateLanguage()
+        {
+            // Setup Form
+            LabelCurrentPath.Text = Resources.CurrentPath;
+            LabelResult.Text = Resources.SetupHint;
+            LabelSelect.Text = Resources.SelectPath;
+            LabelHint.Text = Resources.SetupHint;
+            BtnBrowse.Text = Resources.Browse;
+            BtnConfirm.Text = Resources.Confirm;
         }
     }
 }

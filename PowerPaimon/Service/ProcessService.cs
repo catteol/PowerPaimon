@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using PowerPaimon.Model;
 using PowerPaimon.Utility;
 
@@ -12,7 +7,7 @@ namespace PowerPaimon.Service
 {
     public class ProcessService
     {
-        private static Native.WinEventProc _eventCallback;
+        private static Native.WinEventProc? _eventCallback;
         private static uint[] PriorityClass =
         {
             0x00000100,
@@ -189,7 +184,7 @@ namespace PowerPaimon.Service
 
         private unsafe bool SetupData()
         {
-            var gameDir = Path.GetDirectoryName(_config.GamePath);
+            var gameDir = Path.GetDirectoryName(_config.GamePath) ?? throw new Exception("Cannot find gamepath");
             var gameName = Path.GetFileNameWithoutExtension(_config.GamePath);
             var dataDir = Path.Combine(gameDir, $"{gameName}_Data");
 

@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About" xml:space="preserve">
+    <value>PowerPaimonについて</value>
+  </data>
+  <data name="AboutDesc1" xml:space="preserve">
+    <value>本ソフトウェアは無償及びオープンソースです。</value>
+  </data>
+  <data name="AboutDesc2" xml:space="preserve">
+    <value>問題やバグが発生した場合や、ご要望等がある場合は、下記リンクよりIssueを立てて下さい。</value>
+  </data>
+  <data name="AboveNormal" xml:space="preserve">
+    <value>通常以上</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>追加</value>
+  </data>
+  <data name="AutoClose" xml:space="preserve">
+    <value>自動終了</value>
+  </data>
+  <data name="AutoStartGame" xml:space="preserve">
+    <value>起動時に原神を自動起動</value>
+  </data>
+  <data name="BelowNormal" xml:space="preserve">
+    <value>通常以下</value>
+  </data>
+  <data name="BorderlessWindow" xml:space="preserve">
+    <value>ボーダーレスウィンドウ</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>参照</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="CurrentPath" xml:space="preserve">
+    <value>現在のインストールパス</value>
+  </data>
+  <data name="CustomResolution" xml:space="preserve">
+    <value>カスタム解像度</value>
+  </data>
+  <data name="DLLLabelDescription" xml:space="preserve">
+    <value>DLLはリストの上から順に抽入されます。</value>
+  </data>
+  <data name="DLLs" xml:space="preserve">
+    <value>DLLs</value>
+  </data>
+  <data name="Enable" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Fullscreen" xml:space="preserve">
+    <value>フルスクリーン</value>
+  </data>
+  <data name="FullscreenMode" xml:space="preserve">
+    <value>フルスクリーンモード</value>
+  </data>
+  <data name="GameFoundLabel" xml:space="preserve">
+    <value>{0}個のインストールパスが見つかりました</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>一般設定</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>表示言語</value>
+  </data>
+  <data name="LaunchOptions" xml:space="preserve">
+    <value>原神起動設定</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Mode" xml:space="preserve">
+    <value>モード:</value>
+  </data>
+  <data name="Monitor" xml:space="preserve">
+    <value>モニター番号:</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>通常</value>
+  </data>
+  <data name="PowerSaving" xml:space="preserve">
+    <value>省電力モード</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>プロセス優先度:</value>
+  </data>
+  <data name="Realtime" xml:space="preserve">
+    <value>リアルタイム</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>解像度:</value>
+  </data>
+  <data name="SelectPath" xml:space="preserve">
+    <value>使用するパスを選択</value>
+  </data>
+  <data name="Setup" xml:space="preserve">
+    <value>初期設定</value>
+  </data>
+  <data name="SetupHint" xml:space="preserve">
+    <value>インストールパスが見つからない場合、このまま原神を起動しPowerPaimonのインストールパス自動判別機能を試行するか、『参照』ボタンからインストールパスを手動で選択して下さい。</value>
+  </data>
+  <data name="StartGame" xml:space="preserve">
+    <value>原神を起動</value>
+  </data>
+  <data name="StartMinimized" xml:space="preserve">
+    <value>起動時に最小化</value>
+  </data>
+  <data name="SuspendLoad" xml:space="preserve">
+    <value>サスペンドロード</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>システム既定の言語</value>
+  </data>
+  <data name="TTAutoClose" xml:space="preserve">
+    <value>原神終了時に連動してPowerPaimonを終了します</value>
+  </data>
+  <data name="TTAutoStart" xml:space="preserve">
+    <value>変更は次回起動時以降に反映されます</value>
+  </data>
+  <data name="TTMinimized" xml:space="preserve">
+    <value>PowerPaimonを最小化した状態で起動します</value>
+  </data>
+  <data name="TTPowerSave" xml:space="preserve">
+    <value>バックグラウンド時、フレームレートを10FPSに制限しプロセス優先度を低にします。</value>
+  </data>
+  <data name="TTSuspendLoad" xml:space="preserve">
+    <value>DLLを原神起動前にロードします
+正常に動作しない場合はチェックを外してください</value>
+  </data>
+  <data name="UseMobileUI" xml:space="preserve">
+    <value>モバイルUIを使用</value>
+  </data>
+</root>

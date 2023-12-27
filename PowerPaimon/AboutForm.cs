@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
+using System.Reflection;
+using PowerPaimon.Properties;
 
 namespace PowerPaimon
 {
@@ -16,6 +9,19 @@ namespace PowerPaimon
         public AboutForm()
         {
             InitializeComponent();
+        }
+
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+            UpdateLanguage();
+            System.Diagnostics.Debug.WriteLine("adada");
+        }
+
+        private void UpdateLanguage()
+        {
+            LabelVersion.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)}";
+            LabelDescription.Text = Resources.AboutDesc1;
+            LabelDescription2.Text = Resources.AboutDesc2;
         }
 
         private void LinkLabelSource_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
