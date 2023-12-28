@@ -116,6 +116,9 @@ namespace PowerPaimon.Service
                     $@"CreateProcess failed ({Marshal.GetLastWin32Error()}){Environment.NewLine} {Marshal.GetLastPInvokeErrorMessage()}",
                     @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
+            } else
+            {
+                System.Diagnostics.Debug.WriteLine(BuildCommandLine());
             }
 
             if (!ProcessUtils.InjectDlls(pi.hProcess, _config.DllList))
@@ -173,10 +176,10 @@ namespace PowerPaimon.Service
 
             commandLine += $"-screen-fullscreen {(_config.Fullscreen ? 1 : 0)} ";
             if (_config.Fullscreen)
-                commandLine += $"-window-mode {(_config.IsExclusiveFullscreen ? "exclusive" : "borderless")}";
+                commandLine += $"-window-mode {(_config.IsExclusiveFullscreen ? "exclusive" : "borderless")} ";
 
             if (_config.UseMobileUI)
-                commandLine += "use_mobile_platform -is_cloud 1 -platform_type CLOUD_THIRD_PARTY_MOBILE";
+                commandLine += "use_mobile_platform -is_cloud 1 -platform_type CLOUD_THIRD_PARTY_MOBILE ";
 
             commandLine += $"-monitor {_config.MonitorNum} ";
             return commandLine;
