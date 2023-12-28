@@ -8,85 +8,107 @@
 ## ダウンロード
 **[こちら](https://github.com/rexent-gx/PowerPaimon/releases/latest)から最新版(.exe/64bit)をダウンロードできます**  
 
-2023年5月～6月あたりでFPS上限が60に戻ってしまう等の問題が発生したため、フォーク元の更新を取り込む大規模（？）アップデートを行いました。  
-GUIの実装もされていたためUIの再編成と日本語化等しかやることがありませんでしたが、大目に見ていただけると助かります。
-
 ## 概要
- - デフォルトの60FPS上限を解除し、360FPSまでの設定ができるようになります。
- - ボーダーレス表示や省電力モードなどのオプションが使用できます。
+ - デフォルトの60FPS上限を解除し、420FPSまでの上限解除を行うソフトウェアです。
+ - **WriteProcessMemory**を使用してゲーム内のFPS設定値を上書きしています。
+  - HoYoverseはFPS上限解除ソフトウェアの存在を認知しており、FPS上限解除のみの使用であればBANの対象にはならないそうです。
+  - 現状BANの報告等はありませんが、自己責任で使用してください。また、サードパーティーのプラグインやDLLを使用する場合についても自己責任でお願いします。
+ - ボーダーレスウィンドウモードやカスタム解像度、省電力モードなど、いくつかのオプションを追加することができます。
 
 ## 使用方法
 ### 起動
- - 動作には[Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe)がインストールされている必要があります。
- - [Release](https://github.com/rexent-gx/PowerPaimon/releases/latest)ページから最新版の.exeファイルをダウンロードして下さい。
- - 任意の場所で実行して下さい。動作には管理者権限が必要です。
-   - SmartScreenに弾かれた場合は、ダイアログの『詳細情報』から実行してください。
-   - .exeファイルと同一ディレクトリに設定ファイル(fps_config.json)を自動で作成します。
-   - 原神インストールディレクトリ内部に配置すると不具合が発生するとの情報もあるので、インストールディレクトリ外に配置することをおすすめします。
- - 初回起動時は初期設定画面が表示されます。レジストリから自動で原神のインストールディレクトリを判別しますが、取得できなかった場合は手動で設定してください。
+ 1. 動作には[.NET Desktop Runtime 8.0.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.0-windows-x64-installer)が必要です。多くのシステムでは自動的にインストール済みですが、起動しない場合はこちらをインストールしてみてください。
+ 1. [Release](https://github.com/rexent-gx/PowerPaimon/releases/latest)ページから最新版の.exeファイルを**原神のゲームディレクトリ以外の**任意の場所にダウンロードし、起動してください。
+    > 原神は実行に管理者権限が必要なため、PowerPaimonの動作には管理者権限が必要です。
+    - プロセスメモリにアクセスする関係上、Windows Securityやウイルス対策ソフトにウイルスと判断される場合があります。この場合、PowerPaimonを検査から除外するよう設定してください。
+    - SmartScreenに弾かれた場合は、ダイアログの『詳細情報』から実行してください。
+ 1. GUIで各種設定が行えるほか、『原神を起動』ボタンを選択することで原神を起動できます。既に原神が起動されていると正常に動作しません。
+    - 初回起動時は初期設定画面が表示されます。レジストリから自動で原神のインストールディレクトリを判別しますが、取得できなかった場合は『参照』ボタンから手動で設定してください。
+ 1. 原神起動後はタスクトレイに最小化されます。タスクトレイアイコンをダブルクリックすることでメインウィンドウを表示できます。
 
 ### 設定
- - 左側のFPSフェーダーで最大FPSを設定できます。テキストボックスへ値を入力することも可能です。
- - 右側が各種設定画面です。
-   - 一般タブはPowerPaimon本体に関する設定です。
-   - 起動オプションタブは原神本体に関する設定です。
-   - DLLタブはDLLインジェクションに使用します。
- - `プログラムを自動で終了する`
-   - 原神の終了時に自動でPowerPaimonを終了します。
- - `省電力機能の有効化`
-   - 有効の場合、原神が非フォーカス時（最小化している・別のウィンドウが手前にある等）にFPSを10FPSに制限し、プロセス優先度を`低`に設定します。
- - `ポップアップウィンドウモード`
-   - 起動時の引数に`-popupwindow`を追加し、ボーダーレスでの表示ができるようにします。`ウィンドウモード`を`Borderless`にすることでボーダーレスモードになります。
- - 分かりにくい項目はマウスオーバーで詳細説明のツールチップが表示されるので、そちらを参照してください。
+ - 左側のFPSフェーダーを操作、またはテキストボックスへ値を入力してFPS上限を設定します。
+ - `一般設定`タブはPowerPaimon本体に関する設定です。
+   - `起動時に最小化` - PowerPaimonをタスクトレイに最小化した状態で起動します。
+   - `自動終了` - 原神の終了時に連動してPowerPaimonを終了します。
+   - `省電力モード` - 原神のバックグラウンド移行時にFPS上限を10FPS、プロセス優先度を低に設定します。
+   - `表示言語` - PowerPaimonのUI言語を設定できます。
+ - `原神起動設定`タブは原神プログラム本体に関する設定です。
+   - `ボーダーレスウィンドウ` - 起動時に`-popupwindow`オプションを追加し、ボーダーレスウィンドウでの表示にします。ウィンドウ切り替えなどでフォーカスを失っても非表示になりません。
+   - `フルスクリーン` - 有効時はフルスクリーンで起動します。
+     - `Borderless`モード - ボーダーレスモードで起動します。上記のボーダーレスウィンドウモードとは異なり非アクティブ時には非表示になりますが、Exclusiveモードより高速にウィンドウの切り替えが行えます。
+     - `Exclusive`モード - 排他フルスクリーンモードで起動します。デスクトップの描画を行わない為最もパフォーマンスが良いですが、ウィンドウの切り替えに多少時間がかかります。
+   - `カスタム解像度` - 有効時には指定された解像度で起動します。
+   - `モニター番号` - 原神を表示するモニタ番号を指定します。
+   - `プロセス優先度` - 原神のプロセス優先度を設定します。
+   - `モバイルUIを使用` - スマホ版のUIで起動します。タッチ機能のあるラップトップ等で使えるかもしれません。キーボード/マウス操作は受け付けないようなので、普通のPCではあまり使用しないと思います。
 
 ## 注意
- - 起動時に既に原神を起動していると正常に動作しません。
- - ボーダーレスを有効にしたにも関わらずフルスクリーン挙動（別ウィンドウを開くと原神が非表示になってしまう等）となる場合、**Alt+Enter**を押してみて下さい
- - C++ほぼ触らないのでバグ大量にあると思います許して
- - メモリアクセス及び変更を行うことは規約に違反するので、ご利用は全て自己責任でお願いします
- - コンパイル方法及びその他注意事項は、[フォーク元](https://github.com/34736384/genshin-fps-unlock)を参照して下さい
+ - ボーダーレスモードを有効にしたにも関わらず別ウィンドウに切り替えると非表示になってしまう場合や、フルスクリーンモードなのにウィンドウ枠が表示されてしまう場合、**Alt+Enter**を押してみて下さい
+ - PowerPaimon使用時に帰元ノ庭のギミックが正常に動作しない問題を確認しています。一部ギミックはフレームレートに依存した挙動をする可能性があるので、正常に動作しない場合はPowerPaimonを使用せずに再試行してみてください。
+   - 上限FPSを60に設定すれば動くかもしれませんが、確認できないので情報をお待ちしています。
+
+## コンパイル
+ - Visual Studio 2022 Community Editionを使用してコンパイルが可能です。
+
+## バージョン履歴
+### v3.0.0
+- 本家FPS Unlockerの.NET Core以降に追従し、使用言語をC#に変更
+- GUIを更新
+- 起動オプションの追加
+- 言語切り替え機能を実装
+
+### v2.0.0
+- 本家FPS Unlockerのアップデートを取り込み
+- GUIを更新
+- バージョン4.3への対応
+- その他バグ修正
+
+### v1.0.0
+- GUIを実装
+- ホットキー機能を削除
+- ボーダーレスモードの実装
 
 
 # English version
 
 ## Download
-**You can download the latest ".exe(64bit)" file from [HERE](https://github.com/rexent-gx/PowerPaimon/releases/latest).**
+**Download latest release from [HERE](https://github.com/rexent-gx/PowerPaimon/releases/latest)(.exe/64bit only)**  
 
-## Genshin Impact FPS Unlocker
- - This tool helps you to unlock the 60 fps limit in the game
- - This is an external program which uses **WriteProcessMemory** to write the desired fps to the game
- - Handle protection bypass is already included
- - Does not require a driver for R/W access
- - Supports OS and CN version
- - Should work for future updates
- - If the source needs to be updated, I'll try to do it as soon as possible
- - You can download the compiled binary over at '[Release](https://github.com/34736384/genshin-fps-unlock/releases)' if you don't want to compile it yourself
- ## Compiling
- - Use Visual Studio 2019 Community Edition to compile
- - Not required but I know it works on this version
- ## Usage
- - Make sure you have the [Visual C++ 2019 Redistributable (x64)](https://aka.ms/vs/16/release/vc_redist.x64.exe) and [.NET Framework 4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48) installed
- - If it is your first time running, unlocker will attempt to find your game through the registry. If it fails, then it will ask you to either browse or run the game.
- - Place the compiled exe anywhere you want
- - Make sure your game is closed—the unlocker will automatically start the game for you
- - Run the exe as administrator, and leave the exe running
- >It requires adminstrator because the game needs to be started by the unlocker and the game requires such permission
- - To inject other third-party plugins (e.g. reshade), go to `Options->Settings->DLLs` and click add
+## 概要
+ - This tool helps you to unlock the 60 fps limit in the game, up to 420 fps.
+ - It uses **WriteProcessMemory** to overwrite the desired fps to the game.
+ - Handle protection bypass is already included.
+  - HoYoverse is well aware of this tool, and you will not get banned for using ONLY fps unlock.
+  - If you are using this tool or other third-party plugins, you are doing it at your own risk.
+ - Add some options like Borderless windowed mode, Custom resolution, Power saving to the game.
 
-## Version 2.0.0 Changes
- - Removed key binds
- - Added a GUI (should remove the need for keybinds)
- - Added interactable lauch option configurations (Located under `Options->Settings->Lauch Options`)
- - Added some QoL features, such as start minimized, minimize to tray, game process priority, and power saving
- - **Minimize to tray**: Whenever you click minimize or have the `Start Minimized` option checked, the unlocker will automatically minimize to tray
- - **Game Process Priority**: Changes the process priority on start, and it will be saved in config too!
- - **Power Saving**: Automatically sets the fps limit to 10 and low process priority upon losing focus to the game (e.g. tabbing out of game)
- - Added a slider and an input box for changing fps cap
- - Added an icon
- - Added game path detection through registry, will fallback to old method if it fails with registry
- - You can choose different installation of the game in `Options->Setup`
- ## Notes
- - My test account is currently AR55, can't guarantee it will be safe forever. But, honestly though, I doubt they would ban you for this.
- - Modifying game memory with an unauthorized third-party application is a violation of the ToS, so use it at your own risk (same thing applies for injecting reshade)
- ## Todo
- - IDK, maybe add localization or game predownload
+## Usage
+### Launch
+ 1. Make sure you have the [.NET Desktop Runtime 8.0.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.0-windows-x64-installer) (Usually it should come installed)
+ 1. Download latest .exe from [Release](https://github.com/rexent-gx/PowerPaimon/releases/latest) and save it anywhere you want **except for the game folder**.
+    > It requires adminstrator because the game needs to be started by the unlocker and the game requires such permission.
+    - Because of accessing process memory, security softwares (e.g. Windows Security, AntiVirus softwares) detect this tool as a malware. In this case, add this tool to exclusion.
+ 1. You can configure as you like in GUI, and launch the game. Make sure your game is closed.
+ 1. Run the exe as administrator, and leave the exe running.
+
+## Compiling
+ - Use Visual Studio 2022 Community Edition to compile.
+
+## Version History
+### v3.0.0
+- Merge upstream updates and rewrite in .NET Core(C#)
+- Update GUI
+- Add launch options
+- Multilanguage support
+
+### v2.0.0
+- Merge upstream updates
+- Update GUI
+- Compatible with 4.3 update
+- Bugfix
+
+### v1.0.0
+- Add GUI
+- Remove Hotkey
+- Implement borderless mode
