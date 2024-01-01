@@ -109,8 +109,9 @@ namespace PowerPaimon.Service
         {
             STARTUPINFO si = new();
             uint creationFlag = _config.SuspendLoad ? 4u : 0u;
+            var gameFolder = Path.GetDirectoryName(_config.GamePath) ?? throw new Exception("Failed to get path from config.");
 
-            if (!Native.CreateProcess(_config.GamePath, BuildCommandLine(), IntPtr.Zero, IntPtr.Zero, false, creationFlag, IntPtr.Zero, null, ref si, out var pi))
+            if (!Native.CreateProcess(_config.GamePath, BuildCommandLine(), IntPtr.Zero, IntPtr.Zero, false, creationFlag, IntPtr.Zero, gameFolder, ref si, out var pi))
             {
                 MessageBox.Show(
                     $@"CreateProcess failed ({Marshal.GetLastWin32Error()}){Environment.NewLine} {Marshal.GetLastPInvokeErrorMessage()}",
