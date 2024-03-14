@@ -67,8 +67,10 @@ namespace PowerPaimon.Utility
         {
             var tokens = signature.Split(' ');
             var patternBytes = tokens
-                .ToList()
                 .Select(x => x == "?" ? (byte)0xFF : Convert.ToByte(x, 16))
+                .ToArray();
+            var maskBytes = tokens
+                .Select(x => x == "?")
                 .ToArray();
 
             var dosHeader = Marshal.PtrToStructure<IMAGE_DOS_HEADER>(module);
@@ -85,7 +87,7 @@ namespace PowerPaimon.Utility
                 var found = true;
                 for (var j = 0; j < s; j++)
                 {
-                    if (d[j] != scanBytes[i + j] && d[j] != 0xFF)
+                    if (d[j] != scanBytes[i + j] && !maskBytes[j])
                     {
                         found = false;
                         break;
