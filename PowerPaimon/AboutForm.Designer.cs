@@ -110,7 +110,7 @@
             LabelCredit.Name = "LabelCredit";
             LabelCredit.Size = new Size(320, 16);
             LabelCredit.TabIndex = 6;
-            LabelCredit.Text = "© 2023 rexent_gx";
+            LabelCredit.Text = "© 2024 rexent_gx";
             LabelCredit.TextAlign = ContentAlignment.TopCenter;
             // 
             // LabelDescription2
