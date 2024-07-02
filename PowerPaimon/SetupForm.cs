@@ -144,6 +144,10 @@ namespace PowerPaimon
                     gamePaths.Add($@"{gamePath}\{gameName}".Replace('/', '\\'));
                 }
 
+                // HoYoPlay
+                var installKey = Registry.CurrentUser.OpenSubKey(@"Software\Cognosphere\HYP\1_1\hk4e_global");
+                gamePaths.Add($@"{installKey?.GetValue("GameInstallPath")}\GenshinImpact.exe".Replace('/', '\\'));
+
                 Invoke(() =>
                 {
                     LabelResult.ForeColor = gamePaths.Count > 0 ? Color.Green : Color.Red;
