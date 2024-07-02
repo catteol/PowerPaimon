@@ -26,13 +26,16 @@ namespace PowerPaimon.Service
         private IntPtr _remoteUserAssembly = IntPtr.Zero;
         private int _gamePid = 0;
         private bool _gameInForeground = true;
+        private bool _failover = false;
 
         private IntPtr _pFpsValue = IntPtr.Zero;
 
         private readonly ConfigService _configService;
         private readonly Config _config;
 
-        public ProcessService(ConfigService configService)
+        private readonly IpcService _ipcService;
+
+        public ProcessService(ConfigService configService, IpcService ipcService)
         {
             _configService = configService;
             _config = _configService.Config;
@@ -48,17 +51,32 @@ namespace PowerPaimon.Service
                 0,
                 0 // WINEVENT_OUTOFCONTEXT
                 );
-
+            _ipcService = ipcService;
         }
 
         public bool Start()
         {
+            if (!File.Exists(_config.GamePath))
+            {
+                MessageBox.Show(@"Game path is invalid.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             if (IsGameRunning())
             {
                 MessageBox.Show(@"An instance of the game is already running.", @"Error", MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 return false;
             }
+
+            if (_gameHandle != IntPtr.Zero)
+            {
+                Native.CloseHandle(_gameHandle);
+                _gameHandle = IntPtr.Zero;
+            }
+
+            _failover = false;
+            _ipcService.Stop();
 
             _cts = new();
             Process.GetProcesses()
@@ -73,6 +91,7 @@ namespace PowerPaimon.Service
 
         public void OnFormClosing()
         {
+            _ipcService.Stop();
             _cts.Cancel();
             _pinnedCallback.Free();
             Native.UnhookWinEvent(_winEventHook);
@@ -84,10 +103,11 @@ namespace PowerPaimon.Service
             if (eventType != 3)
                 return;
 
+            if (_gameHandle == IntPtr.Zero)
+                return;
+
             Native.GetWindowThreadProcessId(hWnd, out var pid);
             _gameInForeground = pid == _gamePid;
-
-            ApplyFpsLimit();
 
             if (!_config.UsePowerSave)
                 return;
@@ -101,7 +121,9 @@ namespace PowerPaimon.Service
             if (_gameHandle == IntPtr.Zero)
                 return false;
 
-            Native.GetExitCodeProcess(_gameHandle, out var exitCode);
+            if (!Native.GetExitCodeProcess(_gameHandle, out var exitCode))
+                return false;
+
             return exitCode == 259;
         }
 
@@ -117,7 +139,8 @@ namespace PowerPaimon.Service
                     $@"CreateProcess failed ({Marshal.GetLastWin32Error()}){Environment.NewLine} {Marshal.GetLastPInvokeErrorMessage()}",
                     @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            } else
+            }
+            else
             {
                 System.Diagnostics.Debug.WriteLine(BuildCommandLine());
             }
@@ -131,7 +154,7 @@ namespace PowerPaimon.Service
 
             if (_config.SuspendLoad)
                 Native.ResumeThread(pi.hThread);
-            
+
             _gamePid = pi.dwProcessId;
             _gameHandle = pi.hProcess;
 
@@ -149,21 +172,47 @@ namespace PowerPaimon.Service
                 await Task.Delay(1000, _cts.Token);
             }
 
-            if (!IsGameRunning() && _config.AutoClose)
+            if (!IsGameRunning())
             {
-                Task.Run(async () =>
+                _ipcService.Stop();
+                _pFpsValue = IntPtr.Zero;
+                _gameHandle = IntPtr.Zero;
+
+                if (_config.AutoClose)
                 {
-                    await Task.Delay(2000);
-                    Application.Exit();
-                });
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(2000);
+                        Application.Exit();
+                    });
+                }
             }
         }
 
         private void ApplyFpsLimit()
         {
+            if (_pFpsValue == IntPtr.Zero)
+                return;
+
             int fpsTarget = _gameInForeground ? _config.FPSTarget : _config.UsePowerSave ? 10 : _config.FPSTarget;
-            var toWrite = BitConverter.GetBytes(fpsTarget);
-            Native.WriteProcessMemory(_gameHandle, _pFpsValue, toWrite, 4, out _);
+
+            if (!_failover)
+            {
+                var toWrite = BitConverter.GetBytes(fpsTarget);
+                if (!Native.WriteProcessMemory(_gameHandle, _pFpsValue, toWrite, 4, out _) && IsGameRunning())
+                {
+                    // make sure we are actually failing to write (game is running and we are getting access denied)
+                    if (Marshal.GetLastWin32Error() == 5)
+                    {
+                        _ipcService.Start(_gamePid, _pFpsValue);
+                        _failover = true;
+                    }
+                }
+            }
+            else
+            {
+                _ipcService.ApplyFpsLimit(fpsTarget);
+            }
         }
 
         private string BuildCommandLine()
@@ -268,7 +317,7 @@ namespace PowerPaimon.Service
 
             return true;
 
-            BAD_PATTERN:
+        BAD_PATTERN:
             MessageBox.Show(
                 @"outdated fps pattern",
                 @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

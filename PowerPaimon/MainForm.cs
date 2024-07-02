@@ -27,6 +27,10 @@ namespace PowerPaimon
             _config = _configService.Config;
             _processService = processService;
             SetupBindings();
+
+#if RELEASEMIN
+            TabCtrlSettings.Controls.Remove(TabDlls);
+#endif
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -72,9 +76,11 @@ namespace PowerPaimon
             ComboPriority.DataBindings.Add("SelectedIndex", _config, "Priority", true, DataSourceUpdateMode.OnPropertyChanged);
             CBUseMobileUI.DataBindings.Add("Checked", _config, "UseMobileUI", true, DataSourceUpdateMode.OnPropertyChanged);
 
+#if !RELEASEMIN
             // DLLs            
             RefreshDllList();
             CBSuspendLoad.DataBindings.Add("Checked", _config, "SuspendLoad", true, DataSourceUpdateMode.OnPropertyChanged);
+#endif
         }
 
         private void SetupMenuItem_Click(object sender, EventArgs e)

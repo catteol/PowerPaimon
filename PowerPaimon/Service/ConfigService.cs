@@ -20,8 +20,18 @@ namespace PowerPaimon.Service
             if (!File.Exists(ConfigName))
                 return;
 
-            var json = File.ReadAllText(ConfigName);
-            Config = JsonConvert.DeserializeObject<Config>(json) ?? throw new Exception("Failed to load config.");
+            try
+            {
+                var json = File.ReadAllText(ConfigName);
+                Config = JsonConvert.DeserializeObject<Config>(json) ?? throw new Exception("Failed to load config.");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show(
+                    @$"Failed to load config file{Environment.NewLine}Your config file doesn't appear to be in the correct format. It will be reset to default.",
+                    @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Config = new();
+            }
         }
 
         private void Sanitize()

@@ -12,8 +12,9 @@
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
-    <AssemblyVersion>3.0.3</AssemblyVersion>
-    <FileVersion>3.0.3</FileVersion>
+	  <Configurations>Debug;Release;ReleaseMin</Configurations>
+    <AssemblyVersion>3.1.0</AssemblyVersion>
+    <FileVersion>3.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,14 +25,23 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMin|AnyCPU'">
+	<DebugType>full</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="dm34zubt.k4i~" />
+	<None Remove="Resources\UnlockerStub.dll" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\icon.ico" />
   </ItemGroup>
 
+  <ItemGroup>
+	<EmbeddedResource Include="Resources\UnlockerStub.dll" />
+  </ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
