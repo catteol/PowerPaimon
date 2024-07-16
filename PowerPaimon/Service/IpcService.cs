@@ -61,7 +61,7 @@ namespace PowerPaimon.Service
             }
 
             var stubWndProc = Native.GetProcAddress(_stubModule, "WndProc");
-            var targetWindow = GetWindowFromProcessId(processId);
+            var targetWindow = ProcessUtils.GetWindowFromProcessId(processId);
             var threadId = Native.GetWindowThreadProcessId(targetWindow, out uint _);
 
             _wndHook = Native.SetWindowsHookEx(3, stubWndProc, _stubModule, threadId);
@@ -142,25 +142,6 @@ namespace PowerPaimon.Service
             stream.CopyTo(fileStream);
 
             return filePath;
-        }
-
-        private IntPtr GetWindowFromProcessId(int processId)
-        {
-            IntPtr windowHandle = IntPtr.Zero;
-
-            Native.EnumWindows((hWnd, lParam) =>
-            {
-                Native.GetWindowThreadProcessId(hWnd, out uint pid);
-                if (pid == processId)
-                {
-                    windowHandle = hWnd;
-                    return false;
-                }
-
-                return true;
-            }, IntPtr.Zero);
-
-            return windowHandle;
         }
 
         public void Dispose()
