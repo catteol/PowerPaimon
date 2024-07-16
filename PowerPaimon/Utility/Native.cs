@@ -124,6 +124,14 @@ namespace PowerPaimon.Utility
 
             return ver != 0;
         }
+
+        public static uint GetModuleImageSize(IntPtr lpBaseAddress)
+        {
+            var dosHeader = Marshal.PtrToStructure<IMAGE_DOS_HEADER>(lpBaseAddress);
+            var ntHeader = Marshal.PtrToStructure<IMAGE_NT_HEADERS>(lpBaseAddress + dosHeader.e_lfanew);
+
+            return ntHeader.OptionalHeader.SizeOfImage;
+        }
     }
 
     internal class ModuleGuard(IntPtr module) : IDisposable
