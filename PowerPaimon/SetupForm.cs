@@ -61,12 +61,16 @@ namespace PowerPaimon
                     Native.GetClassName(hWnd, sb, maxCount);
                     if (sb.ToString() == "UnityWndClass")
                     {
-                        windowHandle = hWnd;
                         Native.GetWindowThreadProcessId(hWnd, out var pid);
-                        var foundPath = ProcessUtils.GetProcessPathFromPid(pid, out processHandle);
+                        processHandle = Native.OpenProcess(
+                            ProcessAccess.QUERY_LIMITED_INFORMATION |
+                            ProcessAccess.TERMINATE |
+                            StandardAccess.SYNCHRONIZE, false, pid);
+                        var foundPath = ProcessUtils.GetProcessPath(processHandle);
                         if (!foundPath.Contains("YuanShen.exe") && !foundPath.Contains("GenshinImpact.exe"))
                             return true;
 
+                        windowHandle = hWnd;
                         processPath = foundPath;
                         return false;
                     }
@@ -82,12 +86,12 @@ namespace PowerPaimon
 
                 if (string.IsNullOrEmpty(processPath))
                 {
-                    MessageBox.Show(@"Failed to find process path\nPlease use ""Browse"" instead", @"Error",
+                    MessageBox.Show(@"Failed to find process path{Environment.NewLine}Please use ""Browse"" instead", @"Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                MessageBox.Show($@"Game Found!{Environment.NewLine}{processPath}", @"Success", MessageBoxButtons.OK,
+                MessageBox.Show(this, string.Format(Resources.GameDetectedLabel, processPath), @"Success", MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
                 _config.GamePath = processPath;
@@ -98,69 +102,34 @@ namespace PowerPaimon
 
         private void SearchGamePath()
         {
-            List<RegistryKey> openedSubKeys = new();
+            using var hypGlobal = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Cognosphere\HYP\1_1\hk4e_global");
+            using var hypCn = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\miHoYo\HYP\1_1\hk4e_cn");
 
-            try
+            List<string> gamePaths = new();
+
+            var installPathGlobal = hypGlobal?.GetValue("GameInstallPath") as string;
+            var installPathCn = hypCn?.GetValue("GameInstallPath") as string;
+
+            if (installPathGlobal != null)
             {
-                using var uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall");
-                if (uninstallKey == null)
-                    return;
-
-                var subKeys = uninstallKey.GetSubKeyNames()
-                    .ToList()
-                    .Where(keyName => keyName is "Genshin Impact" or "原神")
-                    .Select(uninstallKey.OpenSubKey)
-                    .Where(key => key != null)
-                    .ToList();
-
-                subKeys.ForEach(s => { if (s is not null) openedSubKeys.Add(s); });
-
-                var launcherIniPaths = subKeys
-                    .Select(key => (string?)key?.GetValue("InstallPath"))
-                    .Where(path => !string.IsNullOrEmpty(path) && Directory.Exists(path))
-                    .Select(launcherPath => $@"{launcherPath}\config.ini")
-                    .ToList();
-
-                List<string> gamePaths = new();
-                foreach (var configPath in launcherIniPaths)
-                {
-                    var configLines = File.ReadLines(configPath);
-                    Dictionary<string, string> ini = new();
-                    foreach (var line in configLines)
-                    {
-                        var split = line.Split('=', StringSplitOptions.RemoveEmptyEntries);
-                        if (split.Length < 2)
-                            continue;
-
-                        ini[split[0]] = split[1];
-                    }
-
-                    if (!ini.TryGetValue("game_install_path", out var gamePath))
-                        continue;
-
-                    if (!ini.TryGetValue("game_start_name", out var gameName))
-                        continue;
-
-                    gamePaths.Add($@"{gamePath}\{gameName}".Replace('/', '\\'));
-                }
-
-                // HoYoPlay
-                var installKey = Registry.CurrentUser.OpenSubKey(@"Software\Cognosphere\HYP\1_1\hk4e_global");
-                gamePaths.Add($@"{installKey?.GetValue("GameInstallPath")}\GenshinImpact.exe".Replace('/', '\\'));
-
-                Invoke(() =>
-                {
-                    LabelResult.ForeColor = gamePaths.Count > 0 ? Color.Green : Color.Red;
-                    LabelResult.Text = String.Format(Resources.GameFoundLabel, gamePaths.Count);
-                    ComboResult.Items.AddRange(gamePaths.ToArray());
-                    if (gamePaths.Count > 0)
-                        ComboResult.SelectedIndex = 0;
-                });
+                var path = Path.Combine(installPathGlobal, "GenshinImpact.exe");
+                gamePaths.Add(path.Replace('/', '\\'));
             }
-            finally
+
+            if (installPathCn != null)
             {
-                openedSubKeys.ForEach(x => x.Close());
+                var path = Path.Combine(installPathCn, "YuanShen.exe");
+                gamePaths.Add(path.Replace('/', '\\'));
             }
+
+            Invoke(() =>
+            {
+                LabelResult.ForeColor = gamePaths.Count > 0 ? Color.Green : Color.Red;
+                LabelResult.Text = string.Format(Resources.GameFoundLabel, gamePaths.Count);
+                ComboResult.Items.AddRange(gamePaths.ToArray());
+                if (gamePaths.Count > 0)
+                    ComboResult.SelectedIndex = 0;
+            });
         }
 
         private void BtnBrowse_Click(object sender, EventArgs e)

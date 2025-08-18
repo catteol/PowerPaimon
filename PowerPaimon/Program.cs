@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using PowerPaimon.Service;
 using PowerPaimon.Utility;
 
@@ -7,7 +9,8 @@ namespace PowerPaimon
 {
     internal static class Program
     {
-        private static IntPtr MutexHandle = IntPtr.Zero;
+        private static readonly string MutexName = "286B345F-A2EB-4FF3-83E9-2DD83B87694A";
+        private static readonly string EventName = "B2ABB8F2-E6B2-4E31-8A11-15F969ADF755";
         public static IServiceProvider? ServiceProvider { get; private set; }
 
         [STAThread]
@@ -19,10 +22,47 @@ namespace PowerPaimon
                 return;
             }
 
-            MutexHandle = Native.CreateMutex(IntPtr.Zero, true, @"PowerPaimon");
-            if (Marshal.GetLastWin32Error() == 183)
-            {
-                MessageBox.Show(@"Another PowerPaimon is already running.", @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            using var mutex = new Mutex(true, MutexName, out var isFirst);
+
+            if (!isFirst) {
+                // second instance
+                try {
+                    using var evt = EventWaitHandle.OpenExisting(EventName);
+                    evt.Set();
+                }
+                catch { }
+                return;
+            }
+
+                        using var showEvent = new EventWaitHandle(false, EventResetMode.AutoReset, EventName);
+            _ = Task.Run(() => {
+                while (showEvent.WaitOne()) {
+
+                    var form = Application.OpenForms
+                        .OfType<MainForm>()
+                        .FirstOrDefault();
+
+                    if (form is { IsHandleCreated: true }) {
+                        form.RestoreFromTray();
+                    }
+
+                }
+            });
+
+            if (!IsAdministrator()) {
+                try {
+                    ProcessStartInfo processInfo = new ProcessStartInfo
+                    {
+                        FileName = Application.ExecutablePath,
+                        UseShellExecute = true,
+                        Verb = "runas"
+                    };
+                    Process.Start(processInfo);
+                }
+                catch {
+                    // ignored
+                }
+
                 return;
             }
             
@@ -39,6 +79,11 @@ namespace PowerPaimon
             Application.Run(ServiceProvider.GetRequiredService<MainForm>());
         }
 
-
+        static bool IsAdministrator()
+        {
+            using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
     }
 }

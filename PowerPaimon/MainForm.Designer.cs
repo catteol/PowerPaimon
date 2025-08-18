@@ -1,4 +1,5 @@
 ﻿using PowerPaimon.Properties;
+using System;
 
 namespace PowerPaimon
 {
@@ -38,6 +39,7 @@ namespace PowerPaimon
             AboutMenuItem = new ToolStripMenuItem();
             MenuItemHr = new ToolStripSeparator();
             ExitMenuItem2 = new ToolStripMenuItem();
+            StartGameMenuItem = new ToolStripMenuItem();
             InputFPS = new NumericUpDown();
             SliderFPS = new TrackBar();
             CBAutoStart = new CheckBox();
@@ -69,6 +71,7 @@ namespace PowerPaimon
             InputMonitorNum = new NumericUpDown();
             LabelMonitor = new Label();
             CBPopup = new CheckBox();
+            CBHdr = new CheckBox();
             ComboPriority = new ComboBox();
             LabelPriority = new Label();
             TabDlls = new TabPage();
@@ -108,20 +111,20 @@ namespace PowerPaimon
             FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { SetupMenuItem, AboutMenuItem, MenuItemHr, ExitMenuItem2 });
             FileToolStripMenuItem.Name = "FileToolStripMenuItem";
             FileToolStripMenuItem.Size = new Size(37, 20);
-            FileToolStripMenuItem.Text = "File";
+            FileToolStripMenuItem.Text = Resources.File;
             // 
             // SetupMenuItem
             // 
             SetupMenuItem.Name = "SetupMenuItem";
             SetupMenuItem.Size = new Size(107, 22);
-            SetupMenuItem.Text = "Setup";
+            SetupMenuItem.Text = Resources.Setup;
             SetupMenuItem.Click += SetupMenuItem_Click;
             // 
             // AboutMenuItem
             // 
             AboutMenuItem.Name = "AboutMenuItem";
             AboutMenuItem.Size = new Size(107, 22);
-            AboutMenuItem.Text = "About";
+            AboutMenuItem.Text = Resources.About;
             AboutMenuItem.Click += AboutMenuItem_Click;
             // 
             // MenuItemHr
@@ -133,8 +136,15 @@ namespace PowerPaimon
             // 
             ExitMenuItem2.Name = "ExitMenuItem2";
             ExitMenuItem2.Size = new Size(107, 22);
-            ExitMenuItem2.Text = "Exit";
+            ExitMenuItem2.Text = Resources.Exit;
             ExitMenuItem2.Click += ExitMenuItem_Click;
+            // 
+            // StartGameMenuItem
+            // 
+            StartGameMenuItem.Name = "StartGameMenuItem";
+            StartGameMenuItem.Size = new Size(131, 22);
+            StartGameMenuItem.Text = Resources.StartGame;
+            StartGameMenuItem.Click += StartGameMenuItem_Click;
             // 
             // InputFPS
             // 
@@ -165,10 +175,10 @@ namespace PowerPaimon
             CBAutoStart.AutoSize = true;
             CBAutoStart.Location = new Point(80, 341);
             CBAutoStart.Name = "CBAutoStart";
-            CBAutoStart.Size = new Size(161, 19);
+            CBAutoStart.Size = new Size(159, 19);
             CBAutoStart.TabIndex = 4;
             CBAutoStart.Text = Resources.AutoStartGame;
-            ToolTipMain.SetToolTip(CBAutoStart, "This will take effect on subsequent launch");
+            ToolTipMain.SetToolTip(CBAutoStart, Resources.TTAutoStart);
             CBAutoStart.UseVisualStyleBackColor = true;
             // 
             // BtnStartGame
@@ -177,7 +187,7 @@ namespace PowerPaimon
             BtnStartGame.Name = "BtnStartGame";
             BtnStartGame.Size = new Size(85, 23);
             BtnStartGame.TabIndex = 5;
-            BtnStartGame.Text = "Start Game";
+            BtnStartGame.Text = Resources.StartGame;
             BtnStartGame.UseVisualStyleBackColor = true;
             BtnStartGame.Click += BtnStartGame_Click;
             // 
@@ -188,8 +198,8 @@ namespace PowerPaimon
             CBPowerSave.Name = "CBPowerSave";
             CBPowerSave.Size = new Size(97, 19);
             CBPowerSave.TabIndex = 3;
-            CBPowerSave.Text = "Power Saving";
-            ToolTipMain.SetToolTip(CBPowerSave, "Sets fps to 10 and low process priority upon losing focus (e.g. tabbing out of game)");
+            CBPowerSave.Text = Resources.PowerSaving;
+            ToolTipMain.SetToolTip(CBPowerSave, Resources.TTPowerSave);
             CBPowerSave.UseVisualStyleBackColor = true;
             // 
             // CBAutoClose
@@ -197,10 +207,10 @@ namespace PowerPaimon
             CBAutoClose.AutoSize = true;
             CBAutoClose.Location = new Point(6, 31);
             CBAutoClose.Name = "CBAutoClose";
-            CBAutoClose.Size = new Size(84, 19);
+            CBAutoClose.Size = new Size(83, 19);
             CBAutoClose.TabIndex = 2;
-            CBAutoClose.Text = "Auto Close";
-            ToolTipMain.SetToolTip(CBAutoClose, "PowerPaimon will exit upon game closing");
+            CBAutoClose.Text = Resources.AutoClose;
+            ToolTipMain.SetToolTip(CBAutoClose, Resources.TTAutoClose);
             CBAutoClose.UseVisualStyleBackColor = true;
             // 
             // CBStartMinimized
@@ -208,10 +218,10 @@ namespace PowerPaimon
             CBStartMinimized.AutoSize = true;
             CBStartMinimized.Location = new Point(6, 6);
             CBStartMinimized.Name = "CBStartMinimized";
-            CBStartMinimized.Size = new Size(109, 19);
+            CBStartMinimized.Size = new Size(108, 19);
             CBStartMinimized.TabIndex = 1;
-            CBStartMinimized.Text = "Start Minimized";
-            ToolTipMain.SetToolTip(CBStartMinimized, "PowerPaimon will minimized to tray on starup");
+            CBStartMinimized.Text = Resources.StartMinimized;
+            ToolTipMain.SetToolTip(CBStartMinimized, Resources.TTMinimized);
             CBStartMinimized.UseVisualStyleBackColor = true;
             // 
             // CBSuspendLoad
@@ -222,13 +232,13 @@ namespace PowerPaimon
             CBSuspendLoad.Size = new Size(100, 19);
             CBSuspendLoad.TabIndex = 4;
             CBSuspendLoad.Text = "Suspend Load";
-            ToolTipMain.SetToolTip(CBSuspendLoad, "This can ensure dll gets loaded before the game starts\r\nIt may not work all the times\r\nUncheck this if the game crashes");
+            ToolTipMain.SetToolTip(CBSuspendLoad, Resources.TTSuspendLoad);
             CBSuspendLoad.UseVisualStyleBackColor = true;
             // 
             // NotifyIconMain
             // 
             NotifyIconMain.BalloonTipIcon = ToolTipIcon.Info;
-            NotifyIconMain.BalloonTipText = "Minimized to tray";
+            NotifyIconMain.BalloonTipText = Resources.NBMinimized;
             NotifyIconMain.BalloonTipTitle = "PowerPaimon";
             NotifyIconMain.ContextMenuStrip = ContextNotify;
             NotifyIconMain.Icon = (Icon)resources.GetObject("NotifyIconMain.Icon");
@@ -238,15 +248,15 @@ namespace PowerPaimon
             // 
             // ContextNotify
             // 
-            ContextNotify.Items.AddRange(new ToolStripItem[] { ExitMenuItem });
+            ContextNotify.Items.AddRange(new ToolStripItem[] { StartGameMenuItem, ExitMenuItem });
             ContextNotify.Name = "ContextNotify";
-            ContextNotify.Size = new Size(94, 26);
+            ContextNotify.Size = new Size(132, 48);
             // 
             // ExitMenuItem
             // 
             ExitMenuItem.Name = "ExitMenuItem";
-            ExitMenuItem.Size = new Size(93, 22);
-            ExitMenuItem.Text = "Exit";
+            ExitMenuItem.Size = new Size(131, 22);
+            ExitMenuItem.Text = Resources.Exit;
             ExitMenuItem.Click += ExitMenuItem_Click;
             // 
             // TabCtrlSettings
@@ -272,7 +282,7 @@ namespace PowerPaimon
             TabGeneral.Padding = new Padding(3);
             TabGeneral.Size = new Size(252, 280);
             TabGeneral.TabIndex = 0;
-            TabGeneral.Text = "General";
+            TabGeneral.Text = Resources.General;
             TabGeneral.UseVisualStyleBackColor = true;
             // 
             // LabelLanguage
@@ -282,12 +292,12 @@ namespace PowerPaimon
             LabelLanguage.Name = "LabelLanguage";
             LabelLanguage.Size = new Size(59, 15);
             LabelLanguage.TabIndex = 7;
-            LabelLanguage.Text = "Language";
+            LabelLanguage.Text = Resources.Language;
             // 
             // ComboLanguage
-            // 
+            //
             ComboLanguage.FormattingEnabled = true;
-            ComboLanguage.Items.AddRange(new object[] { "English", "Japanese", "System Default" });
+            ComboLanguage.Items.AddRange(new object[] { Resources.English, Resources.Japanese, Resources.SystemDefault });
             ComboLanguage.Location = new Point(125, 81);
             ComboLanguage.Name = "ComboLanguage";
             ComboLanguage.Size = new Size(121, 23);
@@ -303,6 +313,7 @@ namespace PowerPaimon
             TabLaunchOptions.Controls.Add(InputMonitorNum);
             TabLaunchOptions.Controls.Add(LabelMonitor);
             TabLaunchOptions.Controls.Add(CBPopup);
+            TabLaunchOptions.Controls.Add(CBHdr);
             TabLaunchOptions.Controls.Add(ComboPriority);
             TabLaunchOptions.Controls.Add(LabelPriority);
             TabLaunchOptions.Location = new Point(4, 24);
@@ -310,7 +321,7 @@ namespace PowerPaimon
             TabLaunchOptions.Padding = new Padding(3);
             TabLaunchOptions.Size = new Size(252, 280);
             TabLaunchOptions.TabIndex = 1;
-            TabLaunchOptions.Text = "Launch Options";
+            TabLaunchOptions.Text = Resources.LaunchOptions;
             TabLaunchOptions.UseVisualStyleBackColor = true;
             // 
             // groupBoxCustomResolution
@@ -381,7 +392,7 @@ namespace PowerPaimon
             groupBoxFullscreen.Controls.Add(CBFullscreen);
             groupBoxFullscreen.Controls.Add(LabelWindowMode);
             groupBoxFullscreen.Controls.Add(ComboFullscreenMode);
-            groupBoxFullscreen.Location = new Point(6, 31);
+            groupBoxFullscreen.Location = new Point(6, 30);
             groupBoxFullscreen.Name = "groupBoxFullscreen";
             groupBoxFullscreen.Size = new Size(240, 71);
             groupBoxFullscreen.TabIndex = 12;
@@ -456,6 +467,16 @@ namespace PowerPaimon
             CBPopup.Text = "Borderless Window";
             CBPopup.UseVisualStyleBackColor = true;
             CBPopup.CheckStateChanged += LaunchOptionsChanged;
+            // 
+            // CBHdr
+            // 
+            CBHdr.AutoSize = true;
+            CBHdr.Location = new Point(139, 6);
+            CBHdr.Name = "CBHdr";
+            CBHdr.Size = new Size(88, 19);
+            CBHdr.TabIndex = 6;
+            CBHdr.Text = "Enable HDR";
+            CBHdr.UseVisualStyleBackColor = true;
             // 
             // ComboPriority
             // 
@@ -607,6 +628,7 @@ namespace PowerPaimon
         private NotifyIcon NotifyIconMain;
         private ContextMenuStrip ContextNotify;
         private ToolStripMenuItem ExitMenuItem;
+        private ToolStripMenuItem StartGameMenuItem;
 
         private TabControl TabCtrlSettings;
         private TabPage TabGeneral;
@@ -642,5 +664,6 @@ namespace PowerPaimon
         private Label LabelLanguage;
         private GroupBox groupBoxCustomResolution;
         private GroupBox groupBoxFullscreen;
+        private CheckBox CBHdr;
     }
 }

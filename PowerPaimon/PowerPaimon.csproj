@@ -13,8 +13,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 	  <Configurations>Debug;Release;ReleaseMin</Configurations>
-    <AssemblyVersion>3.2.0</AssemblyVersion>
-    <FileVersion>3.2.0</FileVersion>
+    <AssemblyVersion>3.3.0</AssemblyVersion>
+    <FileVersion>3.3.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -44,7 +44,6 @@
 	
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,5 +71,4 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

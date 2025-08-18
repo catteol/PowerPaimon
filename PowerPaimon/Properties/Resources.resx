@@ -187,6 +187,9 @@ Go ahead and submit an issue at</value>
   <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="Hdr" xml:space="preserve">
+    <value>Enable HDR</value>
+  </data>
   <data name="High" xml:space="preserve">
     <value>High</value>
   </data>
@@ -259,7 +262,7 @@ Go ahead and submit an issue at</value>
     <value>PowerPaimon will minimized to tray on starup</value>
   </data>
   <data name="TTPowerSave" xml:space="preserve">
-    <value>Sets fps to 10 and low process priority upon losing focus (e.g. tabbing out of game)</value>
+    <value>Sets fps to 10 upon losing focus (e.g. tabbing out of game)</value>
   </data>
   <data name="TTSuspendLoad" xml:space="preserve">
     <value>This can ensure dll gets loaded before the game starts
@@ -268,5 +271,29 @@ Uncheck this if the game crashes</value>
   </data>
   <data name="UseMobileUI" xml:space="preserve">
     <value>Use Mobile UI</value>
+  </data>
+  <data name="GameDetectedLabel" xml:space="preserve">
+    <value>Game Found!
+{0}</value>
+  </data>
+  <data name="NewVersionNotifyLabel" xml:space="preserve">
+    <value>A new version is available!
+
+Current version: {0}
+Latest version: {1}
+
+Would you like to go to the release page?</value>
+  </data>
+  <data name="NBMinimized" xml:space="preserve">
+    <value>Minimized to tray</value>
+  </data>
+  <data name="MsgInvalidPath" xml:space="preserve">
+    <value>Game path is invalid.</value>
+  </data>
+  <data name="MsgAlreadyGameLaunched" xml:space="preserve">
+    <value>An instance of the game is already running.</value>
+  </data>
+  <data name="MsgEnableHdrFailed" xml:space="preserve">
+    <value>Failed to enable HDR: {0}</value>
   </data>
 </root>

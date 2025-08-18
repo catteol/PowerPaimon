@@ -1,4 +1,7 @@
-﻿namespace PowerPaimon
+﻿using PowerPaimon.Properties;
+using System.Reflection;
+
+namespace PowerPaimon
 {
     partial class AboutForm
     {
@@ -56,7 +59,7 @@
             LabelDescription.Name = "LabelDescription";
             LabelDescription.Size = new Size(320, 18);
             LabelDescription.TabIndex = 1;
-            LabelDescription.Text = "This program is free and open source.";
+            LabelDescription.Text = Resources.AboutDesc1;
             LabelDescription.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // LinkLabelSource
@@ -67,7 +70,7 @@
             LinkLabelSource.Size = new Size(320, 20);
             LinkLabelSource.TabIndex = 2;
             LinkLabelSource.TabStop = true;
-            LinkLabelSource.Text = "https://github.com/rexent-gx/PowerPaimon";
+            LinkLabelSource.Text = "https://github.com/catteol/PowerPaimon";
             LinkLabelSource.TextAlign = ContentAlignment.MiddleCenter;
             LinkLabelSource.LinkClicked += LinkLabelSource_LinkClicked;
             // 
@@ -79,7 +82,7 @@
             LinkLabelIssues.Size = new Size(320, 17);
             LinkLabelIssues.TabIndex = 3;
             LinkLabelIssues.TabStop = true;
-            LinkLabelIssues.Text = "https://github.com/rexent-gx/PowerPaimon/issues";
+            LinkLabelIssues.Text = "https://github.com/catteol/PowerPaimon/issues";
             LinkLabelIssues.TextAlign = ContentAlignment.MiddleCenter;
             LinkLabelIssues.LinkClicked += LinkLabelIssues_LinkClicked;
             // 
@@ -100,7 +103,7 @@
             LabelVersion.Name = "LabelVersion";
             LabelVersion.Size = new Size(320, 24);
             LabelVersion.TabIndex = 5;
-            LabelVersion.Text = "v3.0.0";
+            LabelVersion.Text = $"v{Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)}";
             LabelVersion.TextAlign = ContentAlignment.TopCenter;
             // 
             // LabelCredit
@@ -110,7 +113,7 @@
             LabelCredit.Name = "LabelCredit";
             LabelCredit.Size = new Size(320, 16);
             LabelCredit.TabIndex = 6;
-            LabelCredit.Text = "© 2024 rexent_gx";
+            LabelCredit.Text = $"© {DateTime.Now.Year} Catteol";
             LabelCredit.TextAlign = ContentAlignment.TopCenter;
             // 
             // LabelDescription2
@@ -119,7 +122,7 @@
             LabelDescription2.Name = "LabelDescription2";
             LabelDescription2.Size = new Size(320, 31);
             LabelDescription2.TabIndex = 7;
-            LabelDescription2.Text = "If you encounter any problems or have a suggestion\r\nGo ahead and submit an issue at";
+            LabelDescription2.Text = Resources.AboutDesc2;
             LabelDescription2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // AboutForm
@@ -141,7 +144,6 @@
             Name = "AboutForm";
             StartPosition = FormStartPosition.CenterParent;
             Text = "About";
-            Load += AboutForm_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }

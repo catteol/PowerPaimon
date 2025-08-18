@@ -1,11 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Text;
+using System.Text.Json;
 using PowerPaimon.Model;
 
 namespace PowerPaimon.Service
 {
     public class ConfigService
     {
-        private const string ConfigName = "fps_config.json";
+        private static readonly string ConfigName = "fps_config.json";
+        private object _lock = new();
 
         public Config Config { get; private set; } = new();
 
@@ -17,21 +20,16 @@ namespace PowerPaimon.Service
 
         private void Load()
         {
-            if (!File.Exists(ConfigName))
+            var configPath = GetFullPath();
+
+            if (!File.Exists(configPath))
                 return;
 
-            try
-            {
-                var json = File.ReadAllText(ConfigName);
-                Config = JsonConvert.DeserializeObject<Config>(json) ?? throw new Exception("Failed to load config.");
-            }
-            catch (Exception)
-            {
-                MessageBox.Show(
-                    @$"Failed to load config file{Environment.NewLine}Your config file doesn't appear to be in the correct format. It will be reset to default.",
-                    @"Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Config = new();
-            }
+            var json = File.ReadAllText(configPath);
+            var config = JsonSerializer.Deserialize<Config>(json);
+
+            if (config != null)
+                Config = config;
         }
 
         private void Sanitize()
@@ -43,10 +41,22 @@ namespace PowerPaimon.Service
             Config.MonitorNum = Math.Clamp(Config.MonitorNum, 1, 100);
         }
 
+        private string GetFullPath()
+        {
+            var currentPath = AppContext.BaseDirectory;
+            return Path.Combine(currentPath, ConfigName);
+        }
+
         public void Save()
         {
-            var json = JsonConvert.SerializeObject(Config, Formatting.Indented);
-            File.WriteAllText(ConfigName, json);
+            lock (_lock) {
+                var configPath = GetFullPath();
+                var json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
+
+                using var fs = new FileStream(configPath, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.WriteThrough);
+                using var sw = new StreamWriter(fs, Encoding.UTF8);
+                sw.Write(json);
+            }
         }
 
     }

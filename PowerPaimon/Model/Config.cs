@@ -14,6 +14,7 @@
         public bool UsePowerSave { get; set; }
         public bool SuspendLoad { get; set; }
         public bool UseMobileUI { get; set; }
+        public bool UseHDR { get; set; }
 
         public int FPSTarget { get; set; } = 120;
         public int CustomResX { get; set; } = 1920;
@@ -21,6 +22,9 @@
         public int MonitorNum { get; set; } = 1;
         public int Priority { get; set; } = 3;
         public int Language { get; set; } = 2;
+        public string AdditionalCommandLine { get; set; } = "";
+
+        public long LastVersionNotify { get; set; } = 0;
 
         public List<string> DllList { get; set; } = new();
     }

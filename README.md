@@ -51,6 +51,9 @@
 ## コンパイル
  - Visual Studio 2022 Community Editionを使用してコンパイルが可能です。
 
+### Cross Compiling on GNU/Linux
+ .NETアプリケーション及びUnlockerStubのdllコンパイルに使用するx86_64-w64-mingw32 tool-chainの動作には[dotnet-8 SDK for Linux](https://dotnet.microsoft.com/en-us/download/dotnet) が必要です。 例としてDebianを使用している場合、`apt install mingw-w64`でMinGW tool-chainをインストールしてください。 その後 `make` でビルドできます。
+
 ## バージョン履歴
 ### v3.0.0
 - 本家FPS Unlockerの.NET Core以降に追従し、使用言語をC#に変更
@@ -94,6 +97,9 @@
 
 ## Compiling
  - Use Visual Studio 2022 Community Edition to compile.
+
+ ### Cross Compiling on GNU/Linux
+ You need [dotnet-8 SDK for Linux](https://dotnet.microsoft.com/en-us/download/dotnet) for .NET apps and x86_64-w64-mingw32 tool-chain for compiling the UnlockerStub to dll. Take Debian as an example, `apt install mingw-w64` installs the MinGW tool-chain. Finally, use `make` to build.
 
 ## Version History
 ### v3.0.0

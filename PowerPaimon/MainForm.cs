@@ -1,11 +1,14 @@
-using System.Data;
-using System.Globalization;
-using System.Reflection;
-using System.Reflection.PortableExecutable;
 using Microsoft.Extensions.DependencyInjection;
 using PowerPaimon.Model;
 using PowerPaimon.Properties;
 using PowerPaimon.Service;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.Reflection;
+using System.Reflection.PortableExecutable;
+using System.Text.Json;
 
 namespace PowerPaimon
 {
@@ -17,6 +20,8 @@ namespace PowerPaimon
         private readonly ConfigService _configService;
         private readonly Config _config;
         private readonly ProcessService _processService;
+
+        private bool _notifyOnce = false;
 
         public MainForm(
             ConfigService configService,
@@ -42,6 +47,8 @@ namespace PowerPaimon
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            _ = Task.Run(CheckVersion);
+
             UpdateLanguage();
             UpdateControlState();
             this.Text = $"PowerPaimon v{Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)}";
@@ -75,6 +82,7 @@ namespace PowerPaimon
             InputMonitorNum.DataBindings.Add("Value", _config, "MonitorNum", true, DataSourceUpdateMode.OnPropertyChanged);
             ComboPriority.DataBindings.Add("SelectedIndex", _config, "Priority", true, DataSourceUpdateMode.OnPropertyChanged);
             CBUseMobileUI.DataBindings.Add("Checked", _config, "UseMobileUI", true, DataSourceUpdateMode.OnPropertyChanged);
+            CBHdr.DataBindings.Add("Checked", _config, "UseHDR", true, DataSourceUpdateMode.OnPropertyChanged);
 
 #if !RELEASEMIN
             // DLLs            
@@ -93,7 +101,7 @@ namespace PowerPaimon
             if (!File.Exists(_config.GamePath))
                 ShowSetupForm();
 
-            if (_processService.Start())
+            if (_processService.StartGame())
                 WindowState = FormWindowState.Minimized;
         }
 
@@ -116,9 +124,12 @@ namespace PowerPaimon
 
         private void NotifyAndHide()
         {
-            NotifyIconMain.Visible = true;
-            NotifyIconMain.Text = $@"PowerPaimon (FPS: {_config.FPSTarget})";
-            NotifyIconMain.ShowBalloonTip(500);
+            if (!_notifyOnce) {
+                NotifyIconMain.Visible = true;
+                NotifyIconMain.Text = $@"PowerPaimon (FPS: {_config.FPSTarget})";
+                NotifyIconMain.ShowBalloonTip(500);
+                _notifyOnce = true;
+            }
 
             ShowInTaskbar = false;
             Hide();
@@ -126,19 +137,90 @@ namespace PowerPaimon
 
         private void NotifyIconMain_DoubleClick(object sender, EventArgs e)
         {
-            WindowState = FormWindowState.Normal;
-            ShowInTaskbar = true;
-            Show();
-            Activate();
-
-            Location = _windowLocation;
-            Size = _windowSize;
+             RestoreFromTray();
         }
 
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
             var aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+
+        private void StartGameMenuItem_Click(object sender, EventArgs e)
+        {
+            BtnStartGame_Click(sender, e);
+        }
+
+        public void RestoreFromTray()
+        {
+            if (InvokeRequired) {
+                Invoke(RestoreFromTray);
+                return;
+            }
+
+            WindowState = FormWindowState.Normal;
+            ShowInTaskbar = true;
+            TopMost = true;
+            Show();
+            Activate();
+            TopMost = false;
+
+            Location = _windowLocation;
+            Size = _windowSize;
+        }
+
+        async Task CheckVersion()
+        {
+            if (!int.TryParse(Assembly.GetExecutingAssembly().GetName().Version?.ToString(3).Replace(".", ""), out int currentVersion))
+                throw new Exception();
+
+            using var client = new HttpClient(new HttpClientHandler
+            {
+                AllowAutoRedirect = false
+            });
+            try
+            {
+                var response = await client.GetAsync("https://github.com/catteol/PowerPaimon/releases/latest");
+                if ((int)response.StatusCode >= 400 || response.Headers.Location is null)
+                    throw new HttpRequestException(response.StatusCode.ToString());
+
+                if (!int.TryParse(response.Headers.Location.Segments.Last().Replace("v", "").Replace(".", ""), out int remoteVersion))
+                    throw new Exception();
+
+                if (remoteVersion <= currentVersion)
+                    return;
+
+                var utcNow = DateTimeOffset.UtcNow;
+                var lastNotify = DateTimeOffset.FromUnixTimeSeconds(_config.LastVersionNotify);
+                if (utcNow - lastNotify < TimeSpan.FromDays(7))
+                    return;
+
+                var message = String.Format(Resources.NewVersionNotifyLabel,
+                    $"v{Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)}",
+                    response.Headers.Location?.Segments.Last()
+                );
+
+                var result = MessageBox.Show(message, @"PowerPaimon", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1,
+                    MessageBoxOptions.DefaultDesktopOnly);
+
+                if (result == DialogResult.Yes) {
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = response.Headers.Location!.ToString(),
+                        UseShellExecute = true
+                    };
+                    Process.Start(psi);
+                }
+                else {
+                    _config.LastVersionNotify = utcNow.ToUnixTimeSeconds();
+                    _configService.Save();
+                }
+
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         private void RefreshDllList()
@@ -196,19 +278,24 @@ namespace PowerPaimon
             TabGeneral.Text = Resources.General;
             TabLaunchOptions.Text = Resources.LaunchOptions;
             CBAutoStart.Text = Resources.AutoStartGame;
+            ToolTipMain.SetToolTip(CBAutoStart, Resources.TTAutoStart);
             BtnStartGame.Text = Resources.StartGame;
+            StartGameMenuItem.Text = Resources.StartGame;
 
             // General Tab
             CBStartMinimized.Text = Resources.StartMinimized;
+            ToolTipMain.SetToolTip(CBStartMinimized, Resources.TTMinimized);
             CBAutoClose.Text = Resources.AutoClose;
+            ToolTipMain.SetToolTip(CBAutoClose, Resources.TTAutoClose);
             CBPowerSave.Text = Resources.PowerSaving;
+            ToolTipMain.SetToolTip(CBPowerSave, Resources.TTPowerSave);
             LabelLanguage.Text = Resources.Language;
 
             // Language ComboBox, looks unsmart
             ComboLanguage.SelectedIndexChanged -= LanguageChanged;
             var oldIdx = ComboLanguage.SelectedIndex;
             ComboLanguage.Items.Clear();
-            ComboLanguage.Items.AddRange(new object[] { Resources.English, Resources.Japanese, Resources.SystemDefault });
+            ComboLanguage.Items.AddRange([Resources.English, Resources.Japanese, Resources.SystemDefault]);
             ComboLanguage.SelectedIndex = oldIdx;
             ComboLanguage.SelectedIndexChanged += LanguageChanged;
 
@@ -223,12 +310,18 @@ namespace PowerPaimon
             LabelMonitor.Text = Resources.Monitor;
             LabelPriority.Text = Resources.Priority;
             CBUseMobileUI.Text = Resources.UseMobileUI;
+            CBHdr.Text = Resources.Hdr;
 
             // DLLs Tab
             DLLLabel.Text = Resources.DLLLabelDescription;
             BtnAddDll.Text = Resources.Add;
             BtnRemoveDll.Text = Resources.Remove;
             CBSuspendLoad.Text = Resources.SuspendLoad;
+            ToolTipMain.SetToolTip(CBSuspendLoad, Resources.TTSuspendLoad);
+
+            // Notification Balloon
+            NotifyIconMain.BalloonTipText = Resources.NBMinimized;
+
         }
 
         public void LanguageChanged(object? sender, EventArgs e)
